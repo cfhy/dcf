@@ -1,0 +1,24 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "财报计算"
+		}
+	},{
+		"path": "pages/index/search",
+		"style": {
+			"navigationBarTitleText": "搜索"
+		}
+	}
+    ],
+	"globalStyle": {
+		"navigationStyle":"custom",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#f07373",
+		"backgroundColor": "#FFFFFF"
+	}
+}

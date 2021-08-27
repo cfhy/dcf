@@ -21,3 +21,35 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+.DS_Store/
+
+/target
+/target/
+**/target/
+
+.DS_Store
+ 
+# Folders to ignore
+.hg
+.svn
+.CVS
+node_modules/
+jscoverage_lib/
+bower_components/
+dist/
+*.hbuilderx
+__MACOSX
+unpackage

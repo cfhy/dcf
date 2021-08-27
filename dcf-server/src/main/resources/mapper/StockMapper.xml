@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yyb.mapper.StockMapper">
+    <select id="selectByKeyword"  resultType="com.yyb.entity.Stock">
+       select  stock_name,stock_code,industry,total_assets
+       from stock
+       where stock_name like concat('%',#{keyword},'%')
+       order by total_assets desc
+    </select>
+
+    <select id="selectByName"  resultType="com.yyb.entity.Stock">
+        select stock_name,stock_code,industry,total_assets
+        from stock
+        where industry=
+        (
+          select industry from stock where stock_name=#{stockName}
+        ) or stock_name=#{stockName}
+        order by total_assets desc limit 3
+    </select>
+
+    <select id="selectByIndustry"  resultType="com.yyb.entity.Stock">
+        select stock_name,stock_code,industry,total_assets
+         from stock
+         where industry=#{industry}
+         order by total_assets desc
+         limit 3
+    </select>
+
+    <select id="selectNoNetfit" resultType="com.yyb.entity.Stock">
+        select distinct t1.stock_name,t1.stock_code
+        from stock t1
+        left join org_net_fit t2 on t1.stock_code=t2.stock_code
+        where t2.stock_code is null
+    </select>
+</mapper>
