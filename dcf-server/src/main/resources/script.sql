@@ -122,7 +122,6 @@ CREATE TABLE basic_balance (
     total_noncurrent_liab decimal (15, 2) COMMENT '非流动负债合计' ,
     total_liab decimal (15, 2) COMMENT '负债合计' ,
 
-    holders_equity decimal (15, 2) COMMENT '所有者权益（或股东权益）' ,
     shares decimal (15, 2) COMMENT '实收资本（或股本）' ,
     other_equity_tool decimal (15, 2) COMMENT '其他权益工具' ,
     preferred_shares decimal (15, 2) COMMENT '优先股' ,

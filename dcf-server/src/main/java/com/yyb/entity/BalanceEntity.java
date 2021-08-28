@@ -74,6 +74,7 @@ public class BalanceEntity {
 
     @Column(name = "交易性金融资产")
     private BigDecimal tradable_fnncl_assets;
+
     @Column(name = "以公允价值计量且其变动计入当期损益的金融资产")
     private BigDecimal fvtpl_finasset;
 
@@ -316,7 +317,7 @@ public class BalanceEntity {
     @Column(name = "租赁负债")
     private BigDecimal lease_liab;
 
-    @Column(name = "其中：长期应付款")
+    @Column(name = "长期应付款")
     private BigDecimal lt_payable;
 
     @Column(name = "长期应付职工薪酬")
@@ -346,9 +347,6 @@ public class BalanceEntity {
 
     @Column(name = "其他权益工具")
     private BigDecimal other_equity_tool;
-
-    @Column(name = "所有者权益（或股东权益）")
-    private BigDecimal holders_equity;
 
     @Column(name = "优先股")
     private BigDecimal preferred_shares;

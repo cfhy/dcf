@@ -3,7 +3,7 @@ package com.yyb.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.yyb.entity.dfcf.*;
-import com.yyb.utils.DfcfRestTemplateUtils;
+import com.yyb.utils.RestTemplateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 public class DfcfCrawler {
     @Autowired
-    private DfcfRestTemplateUtils restTemplateUtils;
+    private RestTemplateUtils restTemplateUtils;
 
     /**
      * 获取日期

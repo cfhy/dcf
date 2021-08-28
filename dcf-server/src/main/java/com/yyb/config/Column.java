@@ -9,4 +9,3 @@ public @interface Column {
     //列名
     String name();
 }
-

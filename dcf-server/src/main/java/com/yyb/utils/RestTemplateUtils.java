@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class DfcfRestTemplateUtils {
+public class RestTemplateUtils {
     @Autowired
     private RestTemplate restTemplate;
 
