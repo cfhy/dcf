@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class RestTemplateUtils {
+public class XueQiuRestTemplateUtils {
     @Autowired
     private RestTemplate restTemplate;
 

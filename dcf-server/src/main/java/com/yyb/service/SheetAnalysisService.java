@@ -37,8 +37,10 @@ public class SheetAnalysisService {
     private AnalysisSubjectMapper analysisSubjectMapper;
     @Autowired
     private XueQiuCrawler xueQiuCrawler;
+//    @Autowired
+//    private TongHuaSunCrawler tongHuaSunCrawler;
     @Autowired
-    private TongHuaSunCrawler tongHuaSunCrawler;
+    private DfcfCrawler dfcfCrawler;
 
     public static final BigDecimal handred=new BigDecimal(100);
 
@@ -239,14 +241,13 @@ public class SheetAnalysisService {
 
     private void storeBalance(String stockCode,String stockName) {
         //1.拉取数据
-        List<BalanceSheetEntity> thsBalanceSheetList = tongHuaSunCrawler.downloadBalanceSheet(stockCode);
+        List<com.yyb.entity.dfcf.BalanceSheetEntity> dfcfBalanceSheetList = dfcfCrawler.downloadBalanceSheet(stockCode);
         List<BalanceSheetItemEntity> xqBalanceSheetList = xueQiuCrawler.downloadBalanceSheet(stockCode);
 
         Map<String, Field> thsMapField = getClassFields(BalanceSheetEntity.class);
         Map<String, Field> xqMapField = getClassFields(BalanceSheetItemEntity.class);
 
-        int size=thsBalanceSheetList.size()>=xqBalanceSheetList.size()?xqBalanceSheetList.size():thsBalanceSheetList.size();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < dfcfBalanceSheetList.size(); i++) {
             BalanceSheetEntity thsBalance = thsBalanceSheetList.get(i);
             BalanceSheetItemEntity xqBalanceDto = xqBalanceSheetList.get(i);
 

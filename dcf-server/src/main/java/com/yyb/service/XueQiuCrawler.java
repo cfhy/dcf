@@ -1,7 +1,8 @@
 package com.yyb.service;
 
 import com.yyb.entity.xueqiu.*;
-import com.yyb.utils.RestTemplateUtils;
+import com.yyb.utils.XueQiuRestTemplateUtils;
+import com.yyb.utils.XueQiuRestTemplateUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 public class XueQiuCrawler implements InitializingBean {
     @Autowired
-    private RestTemplateUtils restTemplateUtils;
+    private XueQiuRestTemplateUtils restTemplateUtils;
 
     private static String cookie = "";
 

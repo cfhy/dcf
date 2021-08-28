@@ -1,5 +1,6 @@
 package com.yyb.entity.xueqiu;
 
+import com.yyb.config.Column;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,9 +25,9 @@ public class BalanceSheetItemEntity {
     private List<BigDecimal> asset_liab_ratio;
     //归属于母公司股东权益合计
     private List<BigDecimal> total_quity_atsopc;
-    //交易性金融资产
+    @Column(name = "交易性金融资产")
     private List<BigDecimal> tradable_fnncl_assets;
-    //应收利息
+    @Column(name = "其中：应收利息")
     private List<BigDecimal> interest_receivable;
     //可供出售金融资产
     private List<BigDecimal> saleable_finacial_assets;
@@ -86,27 +87,105 @@ public class BalanceSheetItemEntity {
     private List<BigDecimal> othr_compre_income;
     //其他权益工具投资
     private List<BigDecimal> othr_equity_instruments;
-    //货币资金
+    @Column(name = "货币资金")
     private List<BigDecimal> currency_funds;
-    //应收票据
+    @Column(name = "结算备付金")
+    private List<BigDecimal> settle_reserves;
+    @Column(name = "拆出资金")
+    private List<BigDecimal> lending_fund;
+    @Column(name = "衍生金融资产")
+    private List<BigDecimal> derivative_fnncl_assets;
+    @Column(name = "应收保费")
+    private List<BigDecimal> premium_receivable;
+    @Column(name = "应收分保账款")
+    private List<BigDecimal> rein_account_receivable;
+    @Column(name = "应收分保合同准备金")
+    private List<BigDecimal> rein_contract_reserve;
+    @Column(name = "保户质押贷款")
+    private List<BigDecimal> assured_pledge_loan;
+    @Column(name = "保户储金及投资款")
+    private List<BigDecimal> assured_saving_and_invest;
+    @Column(name = "发放贷款和垫款")
+    private List<BigDecimal> disbursement_loan_and_advance;
+    @Column(name = "定期存款")
+    private List<BigDecimal> fixed_deposit;
+
+    private List<BigDecimal> receivable_invest;
+    //存出资本保证金
+    private List<BigDecimal> paid_capital_deposit;
+    //其他资产
+    private List<BigDecimal> othr_assets;
+    //独立账户资产
+    private List<BigDecimal> separate_account;
+    //
+    private List<BigDecimal> asset_si;
+    //同业及其他金融机构存放款项
+    private List<BigDecimal> interbank_deposit_etc;
+    //拆入资金
+    private List<BigDecimal> borrowing_funds;
+    @Column(name = "买入返售金融资产")
+    private List<BigDecimal> buy_resale_fnncl_assets;
+    //卖出回购金融资产款
+    private List<BigDecimal> fnncl_assets_sold_for_repur;
+    //吸收存款
+    private List<BigDecimal> savings_absorption;
+    //
+    private List<BigDecimal> acting_td_sec;
+    //预付保费
+    private List<BigDecimal> advance_premium;
+    //应付手续费及佣金
+    private List<BigDecimal> charge_and_commi_payable;
+    //应付分保账款
+    private List<BigDecimal> rein_payable;
+    //应付赔付款
+    private List<BigDecimal> claim_payable;
+    //应付保单红利
+    private List<BigDecimal> dvdnd_payable_for_the_insured;
+    //
+    private List<BigDecimal> insurance_contract_reserve;
+    //
+    private List<BigDecimal> independent_account_liab;
+    //
+    private List<BigDecimal> amortized_cost_fnncl_assets;
+    //
+    private List<BigDecimal> fv_chg_income_fnncl_assets;
+    //
+    private List<BigDecimal> rein_undue_liability_reserve;
+    //
+    private List<BigDecimal> receivable_rein_duty_reserve;
+    //
+    private List<BigDecimal> received_deposit;
+    //
+    private List<BigDecimal> unearned_premium_reserve;
+    //
+    private List<BigDecimal> life_insurance_reserve;
+    //
+    private List<BigDecimal> lt_health_insurance_reserve;
+    //
+    private List<BigDecimal> lt_staff_salary_payable;
+    @Column(name = "应收票据")
     private List<BigDecimal> bills_receivable;
-    //应收账款
+    @Column(name = "应收账款")
     private List<BigDecimal> account_receivable;
-    //预付账款
+    //    @Column(name = "应收款项融资")
+//    private List<BigDecimal> finance_rece;
+    @Column(name = "预付款项")
     private List<BigDecimal> pre_payment;
-    //应收股利
+    @Column(name = "应收股利")
     private List<BigDecimal> dividend_receivable;
     //其他应收款
+    @Column(name = "其他应收款合计")
     private List<BigDecimal> othr_receivables;
-    //存货
+    @Column(name = "存货")
     private List<BigDecimal> inventory;
-    //一年内到期的非流动资产
+    @Column(name = "一年内到期的非流动资产")
     private List<BigDecimal> nca_due_within_one_year;
-    //其他流动资产
+    @Column(name = "其他流动资产")
     private List<BigDecimal> othr_current_assets;
     //流动资产-发放贷款及垫款
+    @Column(name = "发放贷款和垫款")
     private List<BigDecimal> current_assets_si;
-    //流动资产合计
+    @Column(name = "流动资产合计")
     private List<BigDecimal> total_current_assets;
     //长期应收款
     private List<BigDecimal> lt_receivable;
@@ -156,8 +235,10 @@ public class BalanceSheetItemEntity {
     private List<BigDecimal> othr_current_liab;
     //应收票据及应收账款
     private List<BigDecimal> ar_and_br;
-    //合同资产
+    @Column(name = "合同资产")
     private List<BigDecimal> contractual_assets;
+    //持有待售资产
+
     //应付票据及应付账款
     private List<BigDecimal> bp_and_ap;
     //合同负债
