@@ -1,5 +1,6 @@
 package com.yyb.entity.dfcf;
 
+import com.yyb.config.Column;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,96 +10,151 @@ import java.math.BigDecimal;
  */
 @Data
 public class CashFlowSheetEntity {
-   private String ECURITY_CODE;
+    private String ECURITY_CODE;
     private String REPORT_DATE;
+    @Column(name = "销售商品、提供劳务收到的现金")
     private BigDecimal SALES_SERVICES;//销售商品、提供劳务收到的现金
-    private BigDecimal DEPOSIT_INTERBANK_ADD; //客户存款和同业存放款项净增加额 : 6676507.46,
-    private BigDecimal LOAN_PBC_ADD;
+    @Column(name = "客户存款和同业存放款项净增加额")
+    private BigDecimal DEPOSIT_INTERBANK_ADD; //客户存款和同业存放款项净增加额
+    @Column(name = "向中央银行借款净增加额")
+    private BigDecimal LOAN_PBC_ADD;//向中央银行借款净增加额
     private BigDecimal OFI_BF_ADD;
-    private BigDecimal RECEIVE_ORIGIC_PREMIUM;
+    @Column(name = "收到原保险合同保费取得的现金")
+    private BigDecimal RECEIVE_ORIGIC_PREMIUM;//收到原保险合同保费取得的现金
     private BigDecimal RECEIVE_REINSURE_NET;
-    private BigDecimal INSURED_INVEST_ADD;
+    @Column(name = "保户储金及投资款净增加额")
+    private BigDecimal INSURED_INVEST_ADD;//保户储金及投资款净增加额
     private BigDecimal DISPOSAL_TFA_ADD;
+    @Column(name = "收取利息、手续费及佣金的现金")
     private BigDecimal RECEIVE_INTEREST_COMMISSION;//收取利息、手续费及佣金的现金
-    private BigDecimal BORROW_FUND_ADD;
+    @Column(name = "拆入资金净增加额")
+    private BigDecimal BORROW_FUND_ADD;//拆入资金净增加额
+    @Column(name = "代理买卖证券收到的现金净额")
+    private BigDecimal RECEIVE_AGENT_TRADE;//代理买卖证券收到的现金净额
     private BigDecimal LOAN_ADVANCE_REDUCE;
-    private BigDecimal REPO_BUSINESS_ADD;
+    @Column(name = "回购业务资金净增加额")
+    private BigDecimal REPO_BUSINESS_ADD;//回购业务资金净增加额
     private BigDecimal RECEIVE_TAX_REFUND;
+    @Column(name = "收到其他与经营活动有关的现金")
     private BigDecimal RECEIVE_OTHER_OPERATE;//收到其他与经营活动有关的现金
     private BigDecimal OPERATE_INFLOW_OTHER;
     private BigDecimal OPERATE_INFLOW_BALANCE;
+    @Column(name = "经营活动现金流入小计")
     private BigDecimal TOTAL_OPERATE_INFLOW;//经营活动现金流入小计
+    @Column(name = "购买商品、接受劳务支付的现金")
     private BigDecimal BUY_SERVICES;//购买商品、接受劳务支付的现金
+    @Column(name = "客户贷款及垫款净增加额")
     private BigDecimal LOAN_ADVANCE_ADD;//客户贷款及垫款净增加额
+    @Column(name = "存放中央银行和同业款项净增加额")
     private BigDecimal PBC_INTERBANK_ADD;//存放中央银行和同业款项净增加额
-    private BigDecimal PAY_ORIGIC_COMPENSATE;
+    @Column(name = "支付原保险合同赔付款项的现金")
+    private BigDecimal PAY_ORIGIC_COMPENSATE;//支付原保险合同赔付款项的现金
+    @Column(name = "支付利息、手续费及佣金的现金")
     private BigDecimal PAY_INTEREST_COMMISSION;//支付利息、手续费及佣金的现金
-    private BigDecimal PAY_POLICY_BONUS;
+    @Column(name = "支付保单红利的现金")
+    private BigDecimal PAY_POLICY_BONUS;//支付保单红利的现金
+    @Column(name = "支付给职工及为职工支付的现金")
     private BigDecimal PAY_STAFF_CASH;//支付给职工以及为职工支付的现金
+    @Column(name = "支付的各项税费")
     private BigDecimal PAY_ALL_TAX;//支付的各项税费
+    @Column(name = "支付其他与经营活动有关的现金")
     private BigDecimal PAY_OTHER_OPERATE;//支付其他与经营活动有关的现金
     private BigDecimal OPERATE_OUTFLOW_OTHER;//经营活动现金流出的其他项目
     private BigDecimal OPERATE_OUTFLOW_BALANCE;
+    @Column(name = "经营活动现金流出小计")
     private BigDecimal TOTAL_OPERATE_OUTFLOW;//经营活动现金流出小计
     private BigDecimal OPERATE_NETCASH_OTHER;
     private BigDecimal OPERATE_NETCASH_BALANCE;
+    @Column(name = "经营活动产生的现金流量净额")
     private BigDecimal NETCASH_OPERATE;//经营活动产生的现金流量净额
+    @Column(name = "收回投资收到的现金")
     private BigDecimal WITHDRAW_INVEST;//收回投资收到的现金
+    @Column(name = "取得投资收益收到的现金")
     private BigDecimal RECEIVE_INVEST_INCOME;//取得投资收益收到的现金
+    @Column(name = "处置固定资产、无形资产和其他长期资产收回的现金净额")
     private BigDecimal DISPOSAL_LONG_ASSET;//处置固定资产、无形资产和其他长期资产收回的现金净额
+    @Column(name = "处置子公司及其他营业单位收到的现金净额")
     private BigDecimal DISPOSAL_SUBSIDIARY_OTHER;//处置子公司及其他营业单位收到的现金
     private BigDecimal REDUCE_PLEDGE_TIMEDEPOSITS;
-    private BigDecimal RECEIVE_OTHER_INVEST;
+    @Column(name = "收到其他与投资活动有关的现金")
+    private BigDecimal RECEIVE_OTHER_INVEST;//收到其他与投资活动有关的现金
     private BigDecimal INVEST_INFLOW_OTHER;
     private BigDecimal INVEST_INFLOW_BALANCE;
+    @Column(name = "投资活动现金流入小计")
     private BigDecimal TOTAL_INVEST_INFLOW;//投资活动现金流入小计
+
+    @Column(name = "购建固定资产、无形资产和其他长期资产支付的现金")
     private BigDecimal CONSTRUCT_LONG_ASSET;//购建固定资产、无形资产和其他长期资产支付的现金
+    @Column(name = "投资支付的现金")
     private BigDecimal INVEST_PAY_CASH;//投资支付的现金
     private BigDecimal PLEDGE_LOAN_ADD;
-    private BigDecimal OBTAIN_SUBSIDIARY_OTHER;
+    @Column(name = "取得子公司及其他营业单位支付的现金净额")
+    private BigDecimal OBTAIN_SUBSIDIARY_OTHER;//取得子公司及其他营业单位支付的现金净额
     private BigDecimal ADD_PLEDGE_TIMEDEPOSITS;
+    @Column(name = "支付其他与投资活动有关的现金")
     private BigDecimal PAY_OTHER_INVEST;//支付其他与投资活动有关的现金
     private BigDecimal INVEST_OUTFLOW_OTHER;
     private BigDecimal INVEST_OUTFLOW_BALANCE;
+    @Column(name = "投资活动现金流出小计")
     private BigDecimal TOTAL_INVEST_OUTFLOW;//投资活动现金流出小计
     private BigDecimal INVEST_NETCASH_OTHER;
     private BigDecimal INVEST_NETCASH_BALANCE;
+    @Column(name = "投资活动产生的现金流量净额")
     private BigDecimal NETCASH_INVEST;//投资活动产生的现金流量净额
+    @Column(name = "吸收投资收到的现金")
     private BigDecimal ACCEPT_INVEST_CASH;//吸收投资收到的现金
+    @Column(name = "其中:子公司吸收少数股东投资收到的现金")
     private BigDecimal SUBSIDIARY_ACCEPT_INVEST;//其中:子公司吸收少数股东投资收到的现金
+    @Column(name = "取得借款收到的现金")
     private BigDecimal RECEIVE_LOAN_CASH;//取得借款收到的现金
     private BigDecimal ISSUE_BOND;
+    @Column(name = "收到其他与筹资活动有关的现金")
     private BigDecimal RECEIVE_OTHER_FINANCE;//收到的其他与筹资活动有关的现金
     private BigDecimal FINANCE_INFLOW_OTHER;
     private BigDecimal FINANCE_INFLOW_BALANCE;
     private BigDecimal TOTAL_FINANCE_INFLOW;//筹资活动现金流入小计
+    @Column(name = "偿还债务支付的现金")
     private BigDecimal PAY_DEBT_CASH;//偿还债务所支付的现金
+    @Column(name = "分配股利、利润或偿付利息支付的现金")
     private BigDecimal ASSIGN_DIVIDEND_PORFIT;//分配股利、利润或偿付利息支付的现金
+    @Column(name = "其中：子公司支付给少数股东的股利、利润支付其他与筹资活动有关的现金")
     private BigDecimal SUBSIDIARY_PAY_DIVIDEND;//其中:子公司支付给少数股东的股利、利润
     private BigDecimal BUY_SUBSIDIARY_EQUITY;
     private BigDecimal PAY_OTHER_FINANCE;//支付的其他与筹资活动有关的现金
     private BigDecimal SUBSIDIARY_REDUCE_CASH;
     private BigDecimal FINANCE_OUTFLOW_OTHER;
     private BigDecimal FINANCE_OUTFLOW_BALANCE;
+    @Column(name = "筹资活动现金流出小计")
     private BigDecimal TOTAL_FINANCE_OUTFLOW;//筹资活动现金流出小计
     private BigDecimal FINANCE_NETCASH_OTHER;
     private BigDecimal FINANCE_NETCASH_BALANCE;
+    @Column(name = "筹资活动产生的现金流量净额")
     private BigDecimal NETCASH_FINANCE;//筹资活动产生的现金流量净额
+    @Column(name = "四、汇率变动对现金及现金等价物的影响")
     private BigDecimal RATE_CHANGE_EFFECT;//汇率变动对现金及现金等价物的影响
     private BigDecimal CCE_ADD_OTHER;
     private BigDecimal CCE_ADD_BALANCE;
+    @Column(name = "五、现金及现金等价物净增加额")
     private BigDecimal CCE_ADD;//现金及现金等价物净增加额
+    @Column(name = "加:期初现金及现金等价物余额")
     private BigDecimal BEGIN_CCE;//加:期初现金及现金等价物余额
     private BigDecimal END_CCE_OTHER;
     private BigDecimal END_CCE_BALANCE;
+    @Column(name = "六、期末现金及现金等价物余额")
     private BigDecimal END_CCE;//期末现金及现金等价物余额
 
     private BigDecimal NETPROFIT;//净利润
+    @Column(name = "资产减值准备")
     private BigDecimal ASSET_IMPAIRMENT;//资产减值准备
+    @Column(name = "固定资产和投资性房地产折旧")
     private BigDecimal FA_IR_DEPR;//固定资产和投资性房地产折旧
+    @Column(name = "其中:固定资产折旧、油气资产折耗、生产性生物资产折旧")
     private BigDecimal OILGAS_BIOLOGY_DEPR;//其中:固定资产折旧、油气资产折耗、生产性生物资产折旧
-    private BigDecimal IR_DEPR;
+    @Column(name = "投资性房地产折旧")
+    private BigDecimal IR_DEPR;//投资性房地产折旧
+    @Column(name = "无形资产摊销")
     private BigDecimal IA_AMORTIZE;//无形资产摊销
+    @Column(name = "长期待摊费用摊销")
     private BigDecimal LPE_AMORTIZE;//长期待摊费用摊销
     private BigDecimal DEFER_INCOME_AMORTIZE;
     private BigDecimal PREPAID_EXPENSE_REDUCE;
