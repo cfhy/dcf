@@ -217,6 +217,8 @@ public class BalanceEntity {
     @Column(name = "资产合计")
     private BigDecimal total_assets;
 
+    @Column(name = "总资产增长率")
+    private BigDecimal total_assets_yoy;
     //=======================================非流动资产=============================================
     @Column(name = "短期借款")
     private BigDecimal st_loan;

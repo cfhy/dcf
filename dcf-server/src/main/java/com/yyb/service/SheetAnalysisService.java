@@ -36,10 +36,6 @@ public class SheetAnalysisService {
     @Autowired
     private AnalysisSubjectMapper analysisSubjectMapper;
     @Autowired
-    private XueQiuCrawler xueQiuCrawler;
-//    @Autowired
-//    private TongHuaSunCrawler tongHuaSunCrawler;
-    @Autowired
     private DfcfCrawler dfcfCrawler;
 
     public static final BigDecimal handred=new BigDecimal(100);

@@ -152,6 +152,9 @@ public class IncomeEntity {
     @Column(name = "归属于母公司股东的净利润")
     private BigDecimal parent_netprofit;
 
+    @Column(name = "归属于母公司股东的净利润增长率")
+    private BigDecimal parent_netprofit_yoy;
+
     @Column(name = "少数股东损益")
     private BigDecimal minority_interest;
 

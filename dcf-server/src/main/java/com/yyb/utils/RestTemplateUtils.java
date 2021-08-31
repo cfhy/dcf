@@ -26,4 +26,11 @@ public class RestTemplateUtils {
         RestResultEntity<T> body = responseEntity.getBody();
         return body;
     }
+
+    public <T> T httpGet(String url,ParameterizedTypeReference<T> parameterizedTypeReference) {
+        if (parameterizedTypeReference == null) return null;
+        ResponseEntity<T> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, parameterizedTypeReference);
+        T body = responseEntity.getBody();
+        return body;
+    }
 }

@@ -67,6 +67,8 @@ public class CashFlowSheetEntity {
     private BigDecimal OPERATE_NETCASH_BALANCE;
     @Column(name = "经营活动产生的现金流量净额")
     private BigDecimal NETCASH_OPERATE;//经营活动产生的现金流量净额
+    @Column(name = "经营活动产生的现金流量净额")
+    private BigDecimal NETCASH_OPERATE_YOY;//经营活动产生的现金流量净额增长率
     @Column(name = "收回投资收到的现金")
     private BigDecimal WITHDRAW_INVEST;//收回投资收到的现金
     @Column(name = "取得投资收益收到的现金")
@@ -144,17 +146,11 @@ public class CashFlowSheetEntity {
     private BigDecimal END_CCE;//期末现金及现金等价物余额
 
     private BigDecimal NETPROFIT;//净利润
-    @Column(name = "资产减值准备")
     private BigDecimal ASSET_IMPAIRMENT;//资产减值准备
-    @Column(name = "固定资产和投资性房地产折旧")
     private BigDecimal FA_IR_DEPR;//固定资产和投资性房地产折旧
-    @Column(name = "其中:固定资产折旧、油气资产折耗、生产性生物资产折旧")
     private BigDecimal OILGAS_BIOLOGY_DEPR;//其中:固定资产折旧、油气资产折耗、生产性生物资产折旧
-    @Column(name = "投资性房地产折旧")
     private BigDecimal IR_DEPR;//投资性房地产折旧
-    @Column(name = "无形资产摊销")
     private BigDecimal IA_AMORTIZE;//无形资产摊销
-    @Column(name = "长期待摊费用摊销")
     private BigDecimal LPE_AMORTIZE;//长期待摊费用摊销
     private BigDecimal DEFER_INCOME_AMORTIZE;
     private BigDecimal PREPAID_EXPENSE_REDUCE;

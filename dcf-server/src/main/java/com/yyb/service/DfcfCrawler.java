@@ -90,4 +90,17 @@ public class DfcfCrawler {
         });
         return body == null ? Collections.emptyList() : body.getData();
     }
+
+    public OperateRangeEntity getBusinessAnalysis(String stockCode){
+        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/BusinessAnalysis/BusinessAnalysisAjax?code={0}",stockCode);
+        OperateRangeEntity body = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<OperateRangeEntity>() {});
+        return body;
+    }
+
+    public LnfhrzEntity getBonusFinancing(String stockCode){
+        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/BonusFinancing/PageAjax?code={0}",stockCode);
+        LnfhrzEntity body = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<LnfhrzEntity>() {});
+        return body;
+    }
+
 }

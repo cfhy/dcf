@@ -16,6 +16,8 @@ public class IncomeSheetEntity {
     private BigDecimal TOTAL_OPERATE_INCOME;//营业总收入
     @Column(name = "其中：营业收入")
     private BigDecimal OPERATE_INCOME;//营业收入
+    @Column(name = "营业收入增长率")
+    private BigDecimal OPERATE_INCOME_YOY;//营业收入增长率
     @Column(name = "利息收入")
     private BigDecimal INTEREST_INCOME;//利息收入
     @Column(name = "已赚保费")
@@ -109,6 +111,8 @@ public class IncomeSheetEntity {
     private BigDecimal DISCONTINUED_NETPROFIT;//终止经营净利润
     @Column(name = "归属于母公司股东的净利润")
     private BigDecimal PARENT_NETPROFIT;//归属于母公司股东的净利润
+    @Column(name = "归属于母公司股东的净利润增长率")
+    private BigDecimal PARENT_NETPROFIT_YOY;
     @Column(name = "少数股东损益")
     private BigDecimal MINORITY_INTEREST;//少数股东损益
     private BigDecimal DEDUCT_PARENT_NETPROFIT;//扣除非经常性损益后的净利润

@@ -191,19 +191,4 @@ public class CashFlowEntity {
 
     @Column(name = "六、期末现金及现金等价物余额")
     private BigDecimal end_cce;
-
-    //补充资料
-    @Column(name = "资产减值准备")
-    private BigDecimal asset_impairment;
-    @Column(name = "固定资产和投资性房地产折旧")
-    private BigDecimal fa_ir_depr;
-    @Column(name = "其中:固定资产折旧、油气资产折耗、生产性生物资产折旧")
-    private BigDecimal oilgas_biology_depr;
-    @Column(name = "投资性房地产折旧")
-    private BigDecimal ir_depr;
-    @Column(name = "无形资产摊销")
-    private BigDecimal ia_amortize;
-    @Column(name = "长期待摊费用摊销")
-    private BigDecimal lpe_amortize;
-
 }

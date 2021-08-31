@@ -248,6 +248,8 @@ public class BalanceSheetEntity {
     private BigDecimal TAX_PAYABLE;//应交税费
     @Column(name = "资产合计")
     private BigDecimal TOTAL_ASSETS;//总资产
+    @Column(name = "总资产增长率")
+    private BigDecimal TOTAL_ASSETS_YOY;//总资产增长率
     @Column(name = "流动资产合计")
     private BigDecimal TOTAL_CURRENT_ASSETS;//流动资产合计
     @Column(name = "流动负债合计")
