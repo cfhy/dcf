@@ -34,16 +34,16 @@ public class DfcfCrawler {
         return body == null ? Collections.emptyList() : body.getData();
     }
 
-    //获取最近5年的资产负债表
+    //获取最近6年的资产负债表
     @SuppressWarnings("unchecked")
-    public List<BalanceSheetEntity> downloadBalanceSheet(String stockCode) {
+    public List<BalanceSheetEntity> downloadBalanceSheet(String stockCode,int year) {
         List<DateItemEntity> dateList = getDateList(stockCode);
         if (CollUtil.isEmpty(dateList)) return Collections.emptyList();
 
         String comma = "%2C";
         List<String> tmpList = new ArrayList<>();
         for (int i = 0; i < dateList.size(); i++) {
-            if (i > 5) break;
+            if (i > year) break;
             tmpList.add(dateList.get(i).getREPORT_DATE().substring(0, 10));
         }
         String date = String.join(comma, tmpList);
@@ -53,16 +53,16 @@ public class DfcfCrawler {
         return body == null ? Collections.emptyList() : body.getData();
     }
 
-    //获取最近5年的利润表
+    //获取最近6年的利润表
     @SuppressWarnings("unchecked")
-    public List<IncomeSheetEntity> downloadIncomeSheet(String stockCode) {
+    public List<IncomeSheetEntity> downloadIncomeSheet(String stockCode,int year) {
         List<DateItemEntity> dateList = getDateList(stockCode);
         if (CollUtil.isEmpty(dateList)) return Collections.emptyList();
 
         String comma = "%2C";
         List<String> tmpList = new ArrayList<>();
         for (int i = 0; i < dateList.size(); i++) {
-            if (i > 5) break;
+            if (i > year) break;
             tmpList.add(dateList.get(i).getREPORT_DATE().substring(0, 10));
         }
         String date = String.join(comma, tmpList);
@@ -72,16 +72,16 @@ public class DfcfCrawler {
         return body == null ? Collections.emptyList() : body.getData();
     }
 
-    //获取最近5年的资产负债表
+    //获取最近6年的资产负债表
     @SuppressWarnings("unchecked")
-    public List<CashFlowSheetEntity> downloadCashSheet(String stockCode) {
+    public List<CashFlowSheetEntity> downloadCashSheet(String stockCode,int year) {
         List<DateItemEntity> dateList = getDateList(stockCode);
         if (CollUtil.isEmpty(dateList)) return Collections.emptyList();
 
         String comma = "%2C";
         List<String> tmpList = new ArrayList<>();
         for (int i = 0; i < dateList.size(); i++) {
-            if (i > 5) break;
+            if (i > year) break;
             tmpList.add(dateList.get(i).getREPORT_DATE().substring(0, 10));
         }
         String date = String.join(comma, tmpList);

@@ -282,8 +282,8 @@ CREATE TABLE analysis_subject (
     lt_payable decimal (15, 2) COMMENT '长期应付款' ,
     total_liab_with_interest decimal (15, 2) COMMENT '有息负债总额' ,
     liab_zhbzj_with_yxfz_diff decimal (15, 2) COMMENT '准货币资金与有息负债之差' ,
-    total_st_liab decimal (15, 2) COMMENT '准货币资金与有息负债之差' ,
-    currency_funds_with_dqfz_diff decimal (15, 2) COMMENT '准货币资金与有息负债之差' ,
+    total_st_liab decimal (15, 2) COMMENT '短期有息负债' ,
+    currency_funds_with_dqfz_diff decimal (15, 2) COMMENT '货币资金减短期有息负债的差额' ,
 
     bill_payable decimal (15, 2) COMMENT '应付票据' ,
     accounts_payable decimal (15, 2) COMMENT '应付账款' ,

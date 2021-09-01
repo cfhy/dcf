@@ -6,7 +6,11 @@ import com.yyb.config.Column;
 import java.math.BigDecimal;
 
 public class BalanceSheetEntity {
+    @Column(name = "股票代码")
     private String SECURITY_CODE;
+    @Column(name = "股票名称")
+    private String SECURITY_NAME_ABBR;
+    @Column(name = "报告期")
     private String REPORT_DATE;
     private BigDecimal ACCEPT_DEPOSIT_INTERBANK;
     @Column(name = "应付账款")

@@ -12,24 +12,16 @@ import java.math.BigDecimal;
  * 利润表
  */
 @Data
-@TableName("basic_income")
+@TableName("income")
 public class IncomeEntity {
-    public IncomeEntity(){}
-
-    public IncomeEntity(Integer year,String stock_name,String stock_code){
-        this.year=year;
-        this.stock_code=stock_code;
-        this.stock_name=stock_name;
-    }
-
     @TableId(type = IdType.AUTO)
     private Integer income_id;
 
+    @Column(name = "股票代码")
     private String stock_code;
+    @Column(name = "股票名称")
     private String stock_name;
-
-    //年份
-    @Column(name = "科目\\时间")
+    @Column(name = "报告期")
     private Integer year;
 
     @Column(name = "一、营业总收入")

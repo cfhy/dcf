@@ -10,13 +10,6 @@ import java.math.BigDecimal;
 @Data
 @TableName("analysis_subject")
 public class AnalysisSubject {
-    public AnalysisSubject(){}
-    public AnalysisSubject(Integer year,String stock_name,String stock_code){
-        this.year=year;
-        this.stock_code=stock_code;
-        this.stock_name=stock_name;
-    }
-
     @TableId(type = IdType.AUTO)
     private Integer analysis_subject_id;
     //股票ID
@@ -27,17 +20,20 @@ public class AnalysisSubject {
     //资产合计
     private BigDecimal total_assets;
     //总资产增长率
-    private BigDecimal total_assets_group_ratio;
+    private BigDecimal total_assets_yoy;
     //负债合计
     private BigDecimal total_liab;
     //资产负债率
     private BigDecimal asset_liab_ratio;
     //货币资金
     private BigDecimal currency_funds;
-    //其他流动资产里的“理财产品”
-    private BigDecimal other_financial_product;
-    //交易性金融资产里的理财产品或者结构性存款
-    private BigDecimal trade_financial_product;
+
+    //交易性金融资产
+    private BigDecimal tradable_fnncl_assets;
+    //'其他流动资产里的理财产品'
+    private BigDecimal othr_current_assets_lccp;
+    //''其他流动资产里的结构性存款''
+    private BigDecimal trade_financial_jgxck;
     //准货币资金
     private BigDecimal currency_funds_plus;
     //短期借款
@@ -54,30 +50,38 @@ public class AnalysisSubject {
     private BigDecimal total_liab_with_interest;
     //准货币资金与有息负债之差
     private BigDecimal liab_zhbzj_with_yxfz_diff;
+    //'短期有息负债'
+    private BigDecimal total_st_liab;
+    //'货币资金减短期有息负债的差额'
+    private BigDecimal currency_funds_with_dqfz_diff;
+
     //应付票据
     private BigDecimal bill_payable;
     //应付账款
     private BigDecimal accounts_payable;
     //预收款项
     private BigDecimal pre_receivable;
+    //'合同负债'
+    private BigDecimal contract_liabilities;
     //应付预收合计
     private BigDecimal total_ap_bp_pr;
     //应收票据
     private BigDecimal bills_receivable;
-    //应收款项融资里的应收票据
-    private BigDecimal bills_receivable_plus;
     //应收账款
     private BigDecimal account_receivable;
-    //应收款项融资里的应收账款保理
-    private BigDecimal account_receivable_plus;
+    //'应收款项融资'
+    private BigDecimal finance_rece;
     //预付款项
     private BigDecimal pre_payment;
+    //'合同资产'
+    private BigDecimal contractual_assets;
     //应收预付合计
     private BigDecimal total_ar_br;
     //应付预收与应收预付之差
     private BigDecimal ap_bp_pr_with_ar_br_diff;
     //应收账款占总资产的比率
     private BigDecimal account_receivable_ratio;
+
     //固定资产
     private BigDecimal fixed_asset;
     //在建工程
@@ -88,38 +92,59 @@ public class AnalysisSubject {
     private BigDecimal total_fixed_asset;
     //固定资产工程占总资产的比率
     private BigDecimal fixed_asset_ratio;
-    //交易性金融资产
-    private BigDecimal tradable_fnncl_assets;
+
+    //'债权投资'
+    private BigDecimal creditor_invest;
+    //'其他债权投资'
+    private BigDecimal other_creditor_invest;
+    //'以公允价值计量且其变动计入当期损益的金融资产'
+    private BigDecimal fvtpl_finassets;
     //可供出售金融资产
     private BigDecimal saleable_finacial_assets;
-    //其他权益工具投资
-    private BigDecimal othr_equity_instruments;
-    //其他非流动金融资产
-    private BigDecimal other_illiquid_fnncl_assets;
     //持有至到期投资
     private BigDecimal held_to_maturity_invest;
     //长期股权投资
     private BigDecimal lt_equity_invest;
     //投资性房地产
     private BigDecimal invest_property;
+    //其他权益工具投资
+    private BigDecimal othr_equity_instruments;
+    //其他非流动金融资产
+    private BigDecimal other_illiquid_fnncl_assets;
     //与主业无关的投资类资产合计
     private BigDecimal total_fnncl_assets;
     //与主业无关的投资类资产占总资产的比率
     private BigDecimal total_fnncl_assets_ratio;
+
+    //'应收账款占总资产比率'
+    private BigDecimal account_receivable_with_assets_ratio;
+    //'存货'
+    private BigDecimal inventory;
+    //'存货占总资产比率'
+    private BigDecimal inventory_with_assets_ratio;
+    //'商誉'
+    private BigDecimal goodwill;
+    //'商誉占总资产比率'
+    private BigDecimal goodwill_with_assets_ratio;
+
     //营业收入
-    private BigDecimal revenue;
+    private BigDecimal operate_income;
     //营业收入增长率
-    private BigDecimal revenue_group_ratio;
+    private BigDecimal operate_income_yoy;
     //销售商品、提供劳务收到的现金
     private BigDecimal cash_received_of_sales_service;
     //销售商品、提供劳务收到的现金与营业收入的比率
     private BigDecimal cash_received_of_sales_service_ratio;
+
     //营业成本
     private BigDecimal operating_costs;
     //毛利
-    private BigDecimal revenue_with_operating_costs_diff;
+    private BigDecimal gross_profit;
     //毛利率
-    private BigDecimal revenue_with_operating_costs_diff_ratio;
+    private BigDecimal gross_profit_ratio;
+    //'毛利率波动幅度'
+    private BigDecimal gross_profit_ratio_wave;
+
     //销售费用
     private BigDecimal sales_fee;
     //管理费用
@@ -134,6 +159,10 @@ public class AnalysisSubject {
     private BigDecimal total_fee_ratio;
     //费用率与毛利率之比
     private BigDecimal total_fee_with_mll_ratio;
+
+    //'销售费用率'
+    private BigDecimal sales_fee_ratio;
+
     //营业税金及附加
     private BigDecimal operating_taxes_and_surcharge;
     //主营利润
@@ -144,34 +173,30 @@ public class AnalysisSubject {
     private BigDecimal profit_total_amt;
     //主营利润占利润总额的比率
     private BigDecimal main_profit_with_profit_total_ratio;
+
     //净利润
     private BigDecimal net_profit;
     //经营活动产生的现金流量净额
     private BigDecimal ncf_from_oa;
+    //'经营活动产生的现金流量净额增长率'
+    private BigDecimal netcash_operate_yoy;
     //净利润现金比率
     private BigDecimal net_profit_ratio;
+
     //归属于母公司所有者的净利润
     private BigDecimal net_profit_atsopc;
     //归母净利润增长率
-    private BigDecimal net_profit_atsopc_group_ratio;
+    private BigDecimal parent_netprofit_yoy;
     //加权平均净资产收益率ROE
     private BigDecimal roe;
-    //固定资产折旧
-    private BigDecimal asset_depreciation;
-    //无形资产摊销
-    private BigDecimal intangible_assets_amortize;
-    //分配股利、利润或偿付利息支付的现金
-    private BigDecimal cash_paid_of_distribution;
-    //“经营现金净额”减去“固定折旧+无形摊销+借款利息+股利”之差
-    private BigDecimal ncf_from_oa_diff;
+
     //购建固定资产、无形资产和其他长期资产支付的现金
     private BigDecimal cash_paid_for_assets;
     //购建支付的现金与经营活动产生的现金流量净额的比率
     private BigDecimal buy_ratio;
-    //处置固定资产、无形资产和其他长期资产收回的现金净额
-    private BigDecimal net_cash_of_disposal_assets;
-    //处置收回的现金净额与购建支付的现金的比率
-    private BigDecimal sale_ratio;
+
+    //'年度累计分红总额'
+    private BigDecimal bonus_fee;
     //分红率
     private BigDecimal bonus_ratio;
     //投资活动产生的现金流量净额
@@ -180,10 +205,7 @@ public class AnalysisSubject {
     private BigDecimal ncf_from_fa;
     //三项经营活动的类型
     private String type;
-    //现金及现金等价物净增加额
-    private BigDecimal net_increase_in_cce;
-    //每年实际发放现金分红的总额
-    private BigDecimal total_bonus;
-    //"加回“现金分红”后的现金及现金等价物净增加额"
-    private BigDecimal total_cash;
+
+    //'审计意见'
+    private String opinion_type;
 }

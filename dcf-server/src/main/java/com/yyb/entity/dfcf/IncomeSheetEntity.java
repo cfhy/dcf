@@ -10,7 +10,11 @@ import java.math.BigDecimal;
  */
 @Data
 public class IncomeSheetEntity {
+    @Column(name = "股票代码")
     private String SECURITY_CODE;
+    @Column(name = "股票名称")
+    private String SECURITY_NAME_ABBR;
+    @Column(name = "报告期")
     private String REPORT_DATE;
     @Column(name = "一、营业总收入")
     private BigDecimal TOTAL_OPERATE_INCOME;//营业总收入

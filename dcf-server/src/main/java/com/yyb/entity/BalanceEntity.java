@@ -35,31 +35,18 @@ import java.util.List;
  * 10.“持有待售资产”行项目及“持有待售负债”行项目核算内容发生变化
  */
 @Data
-@TableName("basic_balance")
+@TableName("balance")
 public class BalanceEntity {
-    public BalanceEntity() {
-    }
-
-    public BalanceEntity(Integer year, Integer type, String stock_name, String stock_code) {
-        this.year = year;
-        this.type = type;
-        this.stock_code = stock_code;
-        this.stock_name = stock_name;
-    }
 
     @TableId(type = IdType.AUTO)
     private Integer balance_id;
 
-    private String stock_name;
-
+    @Column(name = "股票代码")
     private String stock_code;
-
-    //年份
-    @Column(name = "科目\\时间")
+    @Column(name = "股票名称")
+    private String stock_name;
+    @Column(name = "报告期")
     private Integer year;
-
-    @Column(name = "类型 1-东方财富 2-雪球 ")
-    private Integer type;
 
     //=======================================流动资产=============================================
 
