@@ -79,9 +79,10 @@ public class AnalysisSubject {
     private BigDecimal total_ar_br;
     //应付预收与应收预付之差
     private BigDecimal ap_bp_pr_with_ar_br_diff;
-    //应收账款占总资产的比率
+    //应收账款和合同资产占总资产的比率
     private BigDecimal account_receivable_ratio;
-
+    //应收账款占总资产的比率
+    private BigDecimal only_account_receivable_ratio;
     //固定资产
     private BigDecimal fixed_asset;
     //在建工程
@@ -116,8 +117,6 @@ public class AnalysisSubject {
     //与主业无关的投资类资产占总资产的比率
     private BigDecimal total_fnncl_assets_ratio;
 
-    //'应收账款占总资产比率'
-    private BigDecimal account_receivable_with_assets_ratio;
     //'存货'
     private BigDecimal inventory;
     //'存货占总资产比率'
@@ -169,9 +168,9 @@ public class AnalysisSubject {
     private BigDecimal main_profit;
     //主营利润率
     private BigDecimal main_profit_ratio;
-    //利润总额
-    private BigDecimal profit_total_amt;
-    //主营利润占利润总额的比率
+    //营业利润
+    private BigDecimal operate_profit;
+    //主营利润占营业利润的比率
     private BigDecimal main_profit_with_profit_total_ratio;
 
     //净利润

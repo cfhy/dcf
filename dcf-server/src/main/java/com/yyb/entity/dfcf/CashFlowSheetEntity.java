@@ -1,5 +1,6 @@
 package com.yyb.entity.dfcf;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.yyb.config.Column;
 import lombok.Data;
 
@@ -9,9 +10,10 @@ import java.math.BigDecimal;
  * 现金流量表
  */
 @Data
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility=JsonAutoDetect.Visibility.NONE)
 public class CashFlowSheetEntity {
     @Column(name = "股票代码")
-    private String SECURITY_CODE;
+    private String SECUCODE;
     @Column(name = "股票名称")
     private String SECURITY_NAME_ABBR;
     @Column(name = "报告期")
@@ -71,7 +73,7 @@ public class CashFlowSheetEntity {
     private BigDecimal OPERATE_NETCASH_BALANCE;
     @Column(name = "经营活动产生的现金流量净额")
     private BigDecimal NETCASH_OPERATE;//经营活动产生的现金流量净额
-    @Column(name = "经营活动产生的现金流量净额")
+    @Column(name = "经营活动产生的现金流量净额增长率")
     private BigDecimal NETCASH_OPERATE_YOY;//经营活动产生的现金流量净额增长率
     @Column(name = "收回投资收到的现金")
     private BigDecimal WITHDRAW_INVEST;//收回投资收到的现金
@@ -118,6 +120,7 @@ public class CashFlowSheetEntity {
     private BigDecimal RECEIVE_OTHER_FINANCE;//收到的其他与筹资活动有关的现金
     private BigDecimal FINANCE_INFLOW_OTHER;
     private BigDecimal FINANCE_INFLOW_BALANCE;
+    @Column(name = "筹资活动现金流入小计")
     private BigDecimal TOTAL_FINANCE_INFLOW;//筹资活动现金流入小计
     @Column(name = "偿还债务支付的现金")
     private BigDecimal PAY_DEBT_CASH;//偿还债务所支付的现金

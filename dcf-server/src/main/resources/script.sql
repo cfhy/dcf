@@ -26,6 +26,7 @@ CREATE TABLE org_net_fit (
 CREATE TABLE balance (
     balance_id  int NOT NULL AUTO_INCREMENT COMMENT '主键' ,
     stock_code varchar(20) COMMENT '股票代码' ,
+    stock_name varchar (100) COMMENT '股票名称' ,
     year int comment '年份',
 
     currency_funds decimal (15, 2) COMMENT '货币资金' ,
@@ -140,6 +141,7 @@ CREATE TABLE balance (
     total_holders_equity decimal (15, 2) COMMENT '所有者权益（或股东权益）合计' ,
     total_liab_and_holders_equity decimal (15, 2) COMMENT '负债和所有者权益（或股东权益）合计',
 
+    opinion_type varchar(100) COMMENT '审计意见' ,
     PRIMARY KEY (`balance_id`)
 );
 
@@ -147,6 +149,7 @@ CREATE TABLE balance (
 CREATE TABLE income (
     income_id  int NOT NULL AUTO_INCREMENT COMMENT '主键' ,
     stock_code varchar(20) COMMENT '股票代码' ,
+    stock_name varchar (100) COMMENT '股票名称' ,
     year int comment '年份',
     total_operate_income decimal (15, 2) COMMENT '一、营业总收入' ,
     operate_income decimal (15, 2) COMMENT '其中：营业收入' ,
@@ -163,6 +166,7 @@ CREATE TABLE income (
     surrender_value decimal (15, 2) COMMENT '退保金' ,
     compensate_expense decimal (15, 2) COMMENT '赔付支出净额' ,
     extract_insurance_reserve decimal (15, 2) COMMENT '提取保险责任合同准备金净额' ,
+    policy_bonus_expense decimal (15, 2) COMMENT '保单红利支出' ,
     reinsure_expense  decimal (15, 2) COMMENT '分保费用' ,
     operate_tax_add  decimal (15, 2) COMMENT '税金及附加' ,
     sales_fee  decimal (15, 2) COMMENT '销售费用' ,
@@ -205,6 +209,7 @@ CREATE TABLE income (
 CREATE TABLE cash_flow (
     cash_flow_id  int NOT NULL AUTO_INCREMENT COMMENT '主键' ,
     stock_code varchar(20) COMMENT '股票代码' ,
+    stock_name varchar (100) COMMENT '股票名称' ,
     year int COMMENT '年份',
     sales_services decimal (15, 2) COMMENT '销售商品、提供劳务收到的现金' ,
     deposit_interbank_add decimal (15, 2) COMMENT '客户存款和同业存放款项净增加额' ,
@@ -230,10 +235,12 @@ CREATE TABLE cash_flow (
     pay_other_operate decimal (15, 2) COMMENT '支付其他与经营活动有关的现金' ,
     total_operate_outflow decimal (15, 2) COMMENT '经营活动现金流出小计' ,
     netcash_operate decimal (15, 2) COMMENT '经营活动产生的现金流量净额' ,
+    netcash_operate_yoy decimal (15, 2) COMMENT '经营活动产生的现金流量净额增长率' ,
     withdraw_invest decimal (15, 2) COMMENT '收回投资收到的现金' ,
     receive_invest_income decimal (15, 2) COMMENT '取得投资收益收到的现金' ,
     disposal_long_asset decimal (15, 2) COMMENT '处置固定资产、无形资产和其他长期资产收回的现金净额' ,
-    receive_other_invest decimal (15, 2) COMMENT '处置子公司及其他营业单位收到的现金净额' ,
+    disposal_subsidiary_other  decimal (15, 2) COMMENT '处置子公司及其他营业单位收到的现金净额' ,
+    receive_other_invest decimal (15, 2) COMMENT '收到其他与投资活动有关的现金' ,
     total_invest_inflow decimal (15, 2) COMMENT '投资活动现金流入小计' ,
     construct_long_asset decimal (15, 2) COMMENT '购建固定资产、无形资产和其他长期资产支付的现金' ,
     invest_pay_cash decimal (15, 2) COMMENT '投资支付的现金' ,
@@ -264,6 +271,7 @@ CREATE TABLE cash_flow (
 CREATE TABLE analysis_subject (
     analysis_subject_id  int NOT NULL AUTO_INCREMENT COMMENT '主键' ,
     stock_code varchar(20) COMMENT '股票代码' ,
+    stock_name varchar (100) COMMENT '股票名称' ,
     year int comment '年份',
     total_assets decimal (15, 2) COMMENT '资产合计' ,
     total_assets_yoy decimal (15, 2) COMMENT '资产增长率' ,
@@ -298,6 +306,7 @@ CREATE TABLE analysis_subject (
     total_ar_br decimal (15, 2) COMMENT '应收预付合计' ,
     ap_bp_pr_with_ar_br_diff decimal (15, 2) COMMENT '应付预收与应收预付之差' ,
     account_receivable_ratio decimal (15, 2) COMMENT '应收账款、合同资产占总资产的比率' ,
+    only_account_receivable_ratio decimal (15, 2) COMMENT '应收账款占总资产的比率' ,
 
     fixed_asset decimal (15, 2) COMMENT '固定资产' ,
     construction_in_process decimal (15, 2) COMMENT '在建工程' ,
@@ -317,7 +326,6 @@ CREATE TABLE analysis_subject (
     total_fnncl_assets decimal (15, 2) COMMENT '投资类资产合计' ,
     total_fnncl_assets_ratio decimal (15, 2) COMMENT '投资类资产占总资产的比率' ,
 
-    account_receivable_with_assets_ratio decimal (15, 2) COMMENT '应收账款占总资产比率',
     inventory decimal (15, 2) COMMENT '存货' ,
     inventory_with_assets_ratio decimal (15, 2) COMMENT '存货占总资产比率',
     goodwill decimal (15, 2) COMMENT '商誉' ,
@@ -346,8 +354,8 @@ CREATE TABLE analysis_subject (
     operating_taxes_and_surcharge decimal (15, 2) COMMENT '营业税金及附加' ,
     main_profit decimal (15, 2) COMMENT '主营利润' ,
     main_profit_ratio decimal (15, 2) COMMENT '主营利润率' ,
-    profit_total_amt decimal (15, 2) COMMENT '利润总额' ,
-    main_profit_with_profit_total_ratio decimal (15, 2) COMMENT '主营利润占利润总额的比率' ,
+    operate_profit decimal (15, 2) COMMENT '营业利润' ,
+    main_profit_with_profit_total_ratio decimal (15, 2) COMMENT '主营利润占营业利润的比率' ,
 
     net_profit decimal (15, 2) COMMENT '净利润' ,
     ncf_from_oa decimal (15, 2) COMMENT '经营活动产生的现金流量净额' ,

@@ -2,7 +2,9 @@ package com.yyb.service;
 
 
 import cn.hutool.core.collection.CollUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.yyb.entity.dfcf.*;
+import com.yyb.utils.JsonUtil;
 import com.yyb.utils.RestTemplateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class DfcfCrawler {
      */
     public List<DateItemEntity> getDateList(String stockCode) {
         String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType=4&reportDateType=1&code={0}", stockCode);
+        String s = restTemplateUtils.httpGet(url);
         RestResultEntity<DateItemEntity> body = restTemplateUtils.httpGetRestResultEntity(url, new ParameterizedTypeReference<RestResultEntity<DateItemEntity>>() {
         });
         return body == null ? Collections.emptyList() : body.getData();
@@ -40,14 +43,14 @@ public class DfcfCrawler {
         List<DateItemEntity> dateList = getDateList(stockCode);
         if (CollUtil.isEmpty(dateList)) return Collections.emptyList();
 
-        String comma = "%2C";
+        String comma = ",";
         List<String> tmpList = new ArrayList<>();
         for (int i = 0; i < dateList.size(); i++) {
-            if (i > year) break;
+            if (i >= year) break;
             tmpList.add(dateList.get(i).getREPORT_DATE().substring(0, 10));
         }
         String date = String.join(comma, tmpList);
-        String url = MessageFormat.format("https://emweb.eastmoneycom/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType=4&reportDateType=1&reportType=1&dates={0}&code={1}", date, stockCode);
+        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType=4&reportDateType=1&reportType=1&dates={0}&code={1}", date, stockCode);
         RestResultEntity<BalanceSheetEntity> body = restTemplateUtils.httpGetRestResultEntity(url, new ParameterizedTypeReference<RestResultEntity<BalanceSheetEntity>>() {
         });
         return body == null ? Collections.emptyList() : body.getData();
@@ -59,10 +62,10 @@ public class DfcfCrawler {
         List<DateItemEntity> dateList = getDateList(stockCode);
         if (CollUtil.isEmpty(dateList)) return Collections.emptyList();
 
-        String comma = "%2C";
+        String comma = ",";
         List<String> tmpList = new ArrayList<>();
         for (int i = 0; i < dateList.size(); i++) {
-            if (i > year) break;
+            if (i >= year) break;
             tmpList.add(dateList.get(i).getREPORT_DATE().substring(0, 10));
         }
         String date = String.join(comma, tmpList);
@@ -78,10 +81,10 @@ public class DfcfCrawler {
         List<DateItemEntity> dateList = getDateList(stockCode);
         if (CollUtil.isEmpty(dateList)) return Collections.emptyList();
 
-        String comma = "%2C";
+        String comma = ",";
         List<String> tmpList = new ArrayList<>();
         for (int i = 0; i < dateList.size(); i++) {
-            if (i > year) break;
+            if (i >= year) break;
             tmpList.add(dateList.get(i).getREPORT_DATE().substring(0, 10));
         }
         String date = String.join(comma, tmpList);
@@ -97,10 +100,18 @@ public class DfcfCrawler {
         return body;
     }
 
-    public LnfhrzEntity getBonusFinancing(String stockCode){
+    public List<LnfhrzItemEntity> getBonusFinancing(String stockCode){
         String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/BonusFinancing/PageAjax?code={0}",stockCode);
         LnfhrzEntity body = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<LnfhrzEntity>() {});
-        return body;
+        return body.getLnfhrz();
     }
+
+
+    public List<ZyzbItemEntity> getZYZB(String stockCode){
+        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=1&code={0}",stockCode);
+        RestResultEntity<ZyzbItemEntity> body = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<RestResultEntity<ZyzbItemEntity>>() {});
+        return body.getData();
+    }
+
 
 }

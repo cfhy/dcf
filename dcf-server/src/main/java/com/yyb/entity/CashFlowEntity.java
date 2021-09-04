@@ -99,6 +99,8 @@ public class CashFlowEntity {
 
     @Column(name = "经营活动产生的现金流量净额")
     private BigDecimal netcash_operate;
+    @Column(name = "经营活动产生的现金流量净额增长率")
+    private BigDecimal netcash_operate_yoy;
 
     //二、投资活动产生的现金流量：
     @Column(name = "收回投资收到的现金")

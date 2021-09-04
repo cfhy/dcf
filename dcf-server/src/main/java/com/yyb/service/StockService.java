@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yyb.dto.IndustryRank;
 import com.yyb.entity.Stock;
+import com.yyb.entity.dfcf.OperateRangeEntity;
 import com.yyb.mapper.StockMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -26,6 +27,8 @@ public class StockService {
     private StockMapper stockMapper;
     @Autowired
     private TongHuaSunCrawler tongHuaSunCrawler;
+    @Autowired
+    private DfcfCrawler dfcfCrawler;
 
     @Scheduled(cron = "0 0 1 1 * ?")
     public void syncStock() {
@@ -55,7 +58,24 @@ public class StockService {
                                     BeanUtils.copyProperties(rank, tempStock);
                                     tempStock.setStock_name(rank.getStockName());
                                     tempStock.setStock_code(rank.getStockCode());
-                                    stockMapper.insert(tempStock);
+                                    try {
+                                        //拉取简介
+                                        OperateRangeEntity businessAnalysis = dfcfCrawler.getBusinessAnalysis(rank.getStockCode());
+                                        if(businessAnalysis!=null){
+                                            if(CollUtil.isNotEmpty(businessAnalysis.getZyfw())){
+                                                tempStock.setOperate_range(businessAnalysis.getZyfw().get(0).getMs());
+                                            }
+                                            if(CollUtil.isNotEmpty(businessAnalysis.getJyps())){
+                                                tempStock.setOperate_desc(businessAnalysis.getJyps().get(0).getMs());
+                                            }
+                                        }
+                                        stockMapper.insert(tempStock);
+                                    }catch (Exception e){
+                                        tempStock.setOperate_range(null);
+                                        tempStock.setOperate_desc(null);
+                                        stockMapper.insert(tempStock);
+                                        log.info("获取简介失败,{}",e);
+                                    }
                                 }
                             });
                         }

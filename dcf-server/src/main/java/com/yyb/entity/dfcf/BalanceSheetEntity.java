@@ -1,13 +1,17 @@
 package com.yyb.entity.dfcf;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.yyb.config.Column;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
+@Data
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility=JsonAutoDetect.Visibility.NONE)
 public class BalanceSheetEntity {
     @Column(name = "股票代码")
-    private String SECURITY_CODE;
+    private String SECUCODE;
     @Column(name = "股票名称")
     private String SECURITY_NAME_ABBR;
     @Column(name = "报告期")
@@ -288,6 +292,7 @@ public class BalanceSheetEntity {
     @Column(name = "使用权资产")
     private BigDecimal USERIGHT_ASSET;//使用权资产
 
+    @Column(name = "审计意见")
     private String OPINION_TYPE;//审计意见(境内)
     private String OSOPINION_TYPE;
 }

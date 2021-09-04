@@ -7,6 +7,6 @@ import java.util.List;
 @Data
 public class RestResultEntity<T> {
     private Integer pages;
-    private Integer counts;
+    private Integer count;
     private List<T> data;
 }

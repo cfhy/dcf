@@ -9,7 +9,7 @@
     </select>
 
     <select id="selectByName"  resultType="com.yyb.entity.Stock">
-        select stock_name,stock_code,industry,total_assets
+        select stock_name,stock_code,industry,total_assets,operate_range
         from stock
         where industry=
         (
@@ -19,7 +19,7 @@
     </select>
 
     <select id="selectByIndustry"  resultType="com.yyb.entity.Stock">
-        select stock_name,stock_code,industry,total_assets
+        select stock_name,stock_code,industry,total_assets,operate_range
          from stock
          where industry=#{industry}
          order by total_assets desc

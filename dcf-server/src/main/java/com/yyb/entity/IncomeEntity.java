@@ -30,6 +30,9 @@ public class IncomeEntity {
     @Column(name = "其中：营业收入")
     private BigDecimal operate_income;
 
+    @Column(name = "营业收入增长率")
+    private BigDecimal operate_income_yoy;
+
     @Column(name = "利息收入")
     private BigDecimal interest_income;
 
@@ -214,7 +217,7 @@ public class IncomeEntity {
     @Column(name = "（二）归属于少数股东的综合收益总额")
     private BigDecimal minority_tci;
 
-    @Column(name = "其中：联营企业和合营企业的投资收益(元)")
+    @Column(name = "其中：对联营企业和合营企业的投资收益")
     private BigDecimal invest_incomes_from_rr;
 
     @Column(name = "（一）基本每股收益(元/股)")

@@ -20,6 +20,7 @@ public class RestTemplateUtils {
     @Autowired
     private RestTemplate restTemplate;
 
+
     public <T> RestResultEntity<T> httpGetRestResultEntity(String url,ParameterizedTypeReference<RestResultEntity<T>> parameterizedTypeReference) {
         if (parameterizedTypeReference == null) return null;
         ResponseEntity<RestResultEntity<T>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, parameterizedTypeReference);
@@ -32,5 +33,9 @@ public class RestTemplateUtils {
         ResponseEntity<T> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, parameterizedTypeReference);
         T body = responseEntity.getBody();
         return body;
+    }
+
+    public String httpGet(String url) {
+        return restTemplate.getForObject(url, String.class);
     }
 }

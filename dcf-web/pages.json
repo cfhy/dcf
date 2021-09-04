@@ -5,7 +5,7 @@
 	"pages": [{
 		"path": "pages/index/index",
 		"style": {
-			"navigationBarTitleText": "财报计算"
+			"navigationBarTitleText": "财报智眼"
 		}
 	},{
 		"path": "pages/index/search",

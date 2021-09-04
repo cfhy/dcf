@@ -1,10 +1,12 @@
 package com.yyb.entity.dfcf;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility=JsonAutoDetect.Visibility.NONE)
 public class LnfhrzItemEntity {
    private BigDecimal ALLOTMENT_NUM;//配股(万股)
    private BigDecimal IPO_NUM;//新股发行(万股)

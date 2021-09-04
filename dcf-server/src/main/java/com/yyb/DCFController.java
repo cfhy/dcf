@@ -48,6 +48,7 @@ public class DCFController {
                 StockSum stockSum = new StockSum();
                 stockSum.setStockCode(rank.getStock_code());
                 stockSum.setStockName(rank.getStock_name());
+                stockSum.setZyfw(rank.getOperate_range());
                 stockSum.setSheetList(sheetAnalysisService.analysis(rank.getStock_code()));
 
                 stockSum.setOrgNetfitList(orgNetfitService.getOrgNetfitList(rank.getStock_code()));
@@ -58,16 +59,10 @@ public class DCFController {
         }
         return map;
     }
-//
-//    @GetMapping("/sync")
-//    //@Scheduled(cron = "0 0 1 1 * ?")
-//    public void syncStock() {
-//        stockService.syncStock();
-//    }
-//
-//    @GetMapping("/syncnet")
-//    //@Scheduled(cron = "0 0 1 1 * ?")
-//    public void syncNet() {
-//        orgNetfitService.syncOrgNetFit();
-//    }
+
+    @GetMapping("/sync")
+    public void syncStock() {
+        stockService.syncStock();
+        //orgNetfitService.syncOrgNetFit();
+    }
 }

@@ -19,6 +19,8 @@ public class Stock {
     private BigDecimal netfit;
     private BigDecimal total_revenue;
     private BigDecimal total_assets;
+    private String operate_range;
+    private String operate_desc;
 
     @TableField(exist = false)
     private Integer type;

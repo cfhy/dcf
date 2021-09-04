@@ -1,5 +1,6 @@
 package com.yyb.entity.dfcf;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.yyb.config.Column;
 import lombok.Data;
 
@@ -9,9 +10,10 @@ import java.math.BigDecimal;
  * 利润表
  */
 @Data
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility=JsonAutoDetect.Visibility.NONE)
 public class IncomeSheetEntity {
     @Column(name = "股票代码")
-    private String SECURITY_CODE;
+    private String SECUCODE;
     @Column(name = "股票名称")
     private String SECURITY_NAME_ABBR;
     @Column(name = "报告期")
@@ -51,6 +53,7 @@ public class IncomeSheetEntity {
 
     private BigDecimal NET_COMPENSATE_EXPENSE;
     private BigDecimal NET_CONTRACT_RESERVE;
+    @Column(name = "分保费用")
     private BigDecimal REINSURE_EXPENSE;//分保费用
     private BigDecimal OTHER_BUSINESS_COST;//其他业务成本
     @Column(name = "税金及附加")
@@ -112,6 +115,7 @@ public class IncomeSheetEntity {
     private BigDecimal PRECOMBINE_PROFIT;
     @Column(name = "持续经营净利润")
     private BigDecimal CONTINUED_NETPROFIT;//持续经营净利润
+    @Column(name = "终止经营净利润")
     private BigDecimal DISCONTINUED_NETPROFIT;//终止经营净利润
     @Column(name = "归属于母公司股东的净利润")
     private BigDecimal PARENT_NETPROFIT;//归属于母公司股东的净利润

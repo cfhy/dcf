@@ -10,6 +10,7 @@ import java.util.List;
 public class StockSum {
     private String stockCode;
     private String stockName;
+    private String zyfw;
     private List<AnalysisSubject> sheetList;
     private List<OrgNetFit> orgNetfitList;
 }

@@ -63,7 +63,7 @@ public class BalanceEntity {
     private BigDecimal tradable_fnncl_assets;
 
     @Column(name = "以公允价值计量且其变动计入当期损益的金融资产")
-    private BigDecimal fvtpl_finasset;
+    private BigDecimal fvtpl_finassets;
 
     @Column(name = "衍生金融资产")
     private BigDecimal derive_finasset;
@@ -376,8 +376,8 @@ public class BalanceEntity {
     @Column(name = "负债和所有者权益（或股东权益）合计")
     private BigDecimal total_liab_and_holders_equity;
 
-
-
+    @Column(name = "审计意见")
+    private String opinion_type;
 
 
 
