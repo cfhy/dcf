@@ -379,3 +379,14 @@ CREATE TABLE analysis_subject (
     opinion_type varchar(100) COMMENT '审计意见',
     PRIMARY KEY (`analysis_subject_id`)
 );
+
+-- 访问日志表
+CREATE TABLE access_log (
+    access_log_id  int NOT NULL AUTO_INCREMENT COMMENT '访问日志表' ,
+    access_ip varchar (20) COMMENT '访问ip' ,
+    user_agent varchar (500) COMMENT '浏览器信息',
+    access_time timestamp COMMENT '访问时间' ,
+    access_stock_code varchar (20) COMMENT '股票代码',
+    access_stock_name varchar (100) COMMENT '股票名称',
+    PRIMARY KEY (access_log_id)
+);

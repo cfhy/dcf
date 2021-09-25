@@ -4,16 +4,14 @@ import cn.hutool.core.collection.CollUtil;
 import com.yyb.dto.StockSum;
 import com.yyb.entity.Stock;
 import com.yyb.mapper.OrgNetFitMapper;
-import com.yyb.service.OrgNetfitService;
-import com.yyb.service.SheetAnalysisService;
-import com.yyb.service.TongHuaSunCrawler;
-import com.yyb.service.StockService;
+import com.yyb.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController
@@ -25,6 +23,8 @@ public class DCFController {
     private StockService stockService;
     @Autowired
     private OrgNetfitService orgNetfitService;
+    @Autowired
+    private AccessLogService accessLogService;
 
     @GetMapping("/search")
     public List<Stock> search(String keyword) {
@@ -33,7 +33,7 @@ public class DCFController {
 
 
     @GetMapping("/list")
-    public Map<String, Object> list(String stockName) {
+    public Map<String, Object> list(String stockName, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(2);
         List<StockSum> list = new ArrayList<>();
         map.put("industry", "");
@@ -57,6 +57,8 @@ public class DCFController {
                 log.error("分析财报出错", e);
             }
         }
+
+        accessLogService.writeLog(stockList.get(0).getStock_code(),stockList.get(0).getStock_name(),request);
         return map;
     }
 
