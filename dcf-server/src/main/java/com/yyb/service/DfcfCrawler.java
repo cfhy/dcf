@@ -95,7 +95,7 @@ public class DfcfCrawler {
     }
 
     public OperateRangeEntity getBusinessAnalysis(String stockCode){
-        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/BusinessAnalysis/BusinessAnalysisAjax?code={0}",stockCode);
+        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code={0}",stockCode);
         OperateRangeEntity body = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<OperateRangeEntity>() {});
         return body;
     }

@@ -64,5 +64,6 @@ public class DCFController {
     public void syncStock() {
         stockService.syncStock();
         //orgNetfitService.syncOrgNetFit();
+        //stockService.updateZYFW("SZ301057");
     }
 }

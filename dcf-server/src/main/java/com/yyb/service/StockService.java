@@ -63,10 +63,16 @@ public class StockService {
                                         OperateRangeEntity businessAnalysis = dfcfCrawler.getBusinessAnalysis(rank.getStockCode());
                                         if(businessAnalysis!=null){
                                             if(CollUtil.isNotEmpty(businessAnalysis.getZyfw())){
-                                                tempStock.setOperate_range(businessAnalysis.getZyfw().get(0).getMs());
+                                                tempStock.setOperate_range(businessAnalysis.getZyfw().get(0).getBUSINESS_SCOPE());
+                                                if(StrUtil.isEmpty(tempStock.getOperate_range())){
+                                                    tempStock.setOperate_range(businessAnalysis.getZyfw().get(0).getMs());
+                                                }
                                             }
                                             if(CollUtil.isNotEmpty(businessAnalysis.getJyps())){
-                                                tempStock.setOperate_desc(businessAnalysis.getJyps().get(0).getMs());
+                                                tempStock.setOperate_desc(businessAnalysis.getJyps().get(0).getBUSINESS_REVIEW());
+                                                if(StrUtil.isEmpty(tempStock.getOperate_desc())){
+                                                    tempStock.setOperate_desc(businessAnalysis.getZyfw().get(0).getMs());
+                                                }
                                             }
                                         }
                                         stockMapper.insert(tempStock);
@@ -74,7 +80,7 @@ public class StockService {
                                         tempStock.setOperate_range(null);
                                         tempStock.setOperate_desc(null);
                                         stockMapper.insert(tempStock);
-                                        log.info("获取简介失败,{}",e);
+                                        log.info("获取简介失败,{}，stock_code={}",e,tempStock.getStock_code());
                                     }
                                 }
                             });
@@ -114,5 +120,19 @@ public class StockService {
         List<Stock> list = stockMapper.selectList(queryWrapper);
         if (CollUtil.isNotEmpty(list)) return list.get(0);
         return null;
+    }
+
+    public void updateZYFW(String stockCode){
+        OperateRangeEntity businessAnalysis = dfcfCrawler.getBusinessAnalysis(stockCode);
+        if(businessAnalysis!=null){
+            if(CollUtil.isNotEmpty(businessAnalysis.getZyfw())){
+               String aa=businessAnalysis.getZyfw().get(0).getBUSINESS_SCOPE();
+               System.out.print(aa);
+            }
+            if(CollUtil.isNotEmpty(businessAnalysis.getJyps())){
+               String bb=businessAnalysis.getJyps().get(0).getBUSINESS_REVIEW();
+                System.out.print(bb);
+            }
+        }
     }
 }
