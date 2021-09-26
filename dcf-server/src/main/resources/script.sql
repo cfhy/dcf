@@ -7,6 +7,7 @@ CREATE TABLE stock (
     netfit decimal (15, 2) COMMENT '净利润' ,
     total_revenue decimal (15, 2) COMMENT '总收入' ,
     total_assets decimal (15, 2) COMMENT '总资产' ,
+    total_shares decimal (15, 2) COMMENT '总股本' ,
     operate_range text COMMENT '主营范围' ,
     operate_desc text COMMENT '经营评述' ,
     PRIMARY KEY (stock_id)
@@ -18,7 +19,7 @@ CREATE TABLE org_net_fit (
     stock_name varchar (100) COMMENT '股票名称' ,
     stock_code varchar (20) COMMENT '股票代码',
     year int comment '年份',
-    netfit varchar (100) COMMENT '净利润' ,
+    netfit decimal (15,2) COMMENT '净利润' ,
     PRIMARY KEY (net_fit_id)
 );
 

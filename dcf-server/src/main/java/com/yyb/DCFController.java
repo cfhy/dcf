@@ -25,6 +25,8 @@ public class DCFController {
     private OrgNetfitService orgNetfitService;
     @Autowired
     private AccessLogService accessLogService;
+    @Autowired
+    private DfcfCrawler dfcfCrawler;
 
     @GetMapping("/search")
     public List<Stock> search(String keyword) {
@@ -49,6 +51,7 @@ public class DCFController {
                 stockSum.setStockCode(rank.getStock_code());
                 stockSum.setStockName(rank.getStock_name());
                 stockSum.setZyfw(rank.getOperate_range());
+                stockSum.setTotalShares(rank.getTotal_shares());
                 stockSum.setSheetList(sheetAnalysisService.analysis(rank.getStock_code()));
 
                 stockSum.setOrgNetfitList(orgNetfitService.getOrgNetfitList(rank.getStock_code()));
@@ -64,7 +67,8 @@ public class DCFController {
 
     @GetMapping("/sync")
     public void syncStock() {
-        stockService.syncStock();
+        //dfcfCrawler.getTotalShares("SZ000895");
+        //stockService.syncStock();
         //orgNetfitService.syncOrgNetFit();
         //stockService.updateZYFW("SZ301057");
     }

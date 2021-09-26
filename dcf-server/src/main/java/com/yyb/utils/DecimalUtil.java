@@ -190,4 +190,15 @@ public class DecimalUtil {
         }
         return b1.divide(b2, scale, RoundingMode.HALF_UP);
     }
+
+    public static BigDecimal handleMoney(String money){
+        if(money.contains("亿")){
+            money = money.replace("亿", "");
+            return multiply(new BigDecimal(money),new BigDecimal(100000000));
+        }else if(money.contains("万")){
+            money = money.replace("万", "");
+            return multiply(new BigDecimal(money),new BigDecimal(10000));
+        }
+        return BigDecimal.ZERO;
+    }
 }

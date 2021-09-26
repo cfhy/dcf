@@ -3,6 +3,7 @@ package com.yyb.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.yyb.dto.IndustryRank;
 import com.yyb.entity.Stock;
 import com.yyb.entity.dfcf.OperateRangeEntity;
@@ -18,6 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -32,6 +34,7 @@ public class StockService {
 
     @Scheduled(cron = "0 0 1 1 * ?")
     public void syncStock() {
+        stockMapper.delete(Wrappers.emptyWrapper());
         List<String> urlList = Arrays.asList("https://www.banban.cn/gupiao/list_sh.html"
                 , "https://www.banban.cn/gupiao/list_sz.html"
                 , "https://www.banban.cn/gupiao/list_cyb.html");
@@ -75,11 +78,11 @@ public class StockService {
                                                 }
                                             }
                                         }
+                                        //拉取股本
+                                        BigDecimal totalShares = dfcfCrawler.getTotalShares(tempStock.getStock_code());
+                                        tempStock.setTotal_shares(totalShares);
                                         stockMapper.insert(tempStock);
                                     }catch (Exception e){
-                                        tempStock.setOperate_range(null);
-                                        tempStock.setOperate_desc(null);
-                                        stockMapper.insert(tempStock);
                                         log.info("获取简介失败,{}，stock_code={}",e,tempStock.getStock_code());
                                     }
                                 }
@@ -122,17 +125,9 @@ public class StockService {
         return null;
     }
 
-    public void updateZYFW(String stockCode){
-        OperateRangeEntity businessAnalysis = dfcfCrawler.getBusinessAnalysis(stockCode);
-        if(businessAnalysis!=null){
-            if(CollUtil.isNotEmpty(businessAnalysis.getZyfw())){
-               String aa=businessAnalysis.getZyfw().get(0).getBUSINESS_SCOPE();
-               System.out.print(aa);
-            }
-            if(CollUtil.isNotEmpty(businessAnalysis.getJyps())){
-               String bb=businessAnalysis.getJyps().get(0).getBUSINESS_REVIEW();
-                System.out.print(bb);
-            }
-        }
+    public List<Stock> getStockList() {
+        QueryWrapper<Stock> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("stock_name","stock_code");
+        return stockMapper.selectList(queryWrapper);
     }
 }

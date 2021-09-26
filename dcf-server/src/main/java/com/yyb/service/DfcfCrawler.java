@@ -4,13 +4,18 @@ package com.yyb.service;
 import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.yyb.entity.dfcf.*;
+import com.yyb.utils.DecimalUtil;
 import com.yyb.utils.JsonUtil;
 import com.yyb.utils.RestTemplateUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,5 +118,15 @@ public class DfcfCrawler {
         return body.getData();
     }
 
-
+    public BigDecimal getTotalShares(String stockCode){
+        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/OperationsRequired/OperationsRequiredAjax?times=1&code={0}&code={0}",stockCode);
+        OperationsRequiredEntity zyzb = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<OperationsRequiredEntity>() {});
+        String zyzbStr= zyzb.getZxzb1();
+        Document document = Jsoup.parse(zyzbStr);
+        Elements lastTdSpan = document.select("tr:eq(2) td:last-child>span");
+        if(lastTdSpan!=null){
+           return DecimalUtil.multiply(new BigDecimal(lastTdSpan.text().replace(",","")),new BigDecimal(10000));
+        }
+        return BigDecimal.ZERO;
+    }
 }

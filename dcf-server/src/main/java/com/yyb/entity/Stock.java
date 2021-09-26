@@ -19,6 +19,7 @@ public class Stock {
     private BigDecimal netfit;
     private BigDecimal total_revenue;
     private BigDecimal total_assets;
+    private BigDecimal total_shares;
     private String operate_range;
     private String operate_desc;
 

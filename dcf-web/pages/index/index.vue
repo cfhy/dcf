@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-search placeholder="请输入要搜索的股票" v-model="stockName" margin="10rpx" disabled @click="searchClick" :show-action="false"></u-search>
-		<u-notice-bar v-if="industry" mode="vertical" :list="[industry, '只展示同行业总资产排名前3的上市公司']" color='#f07373' style="margin-bottom: 10rpx;"></u-notice-bar>
+		<u-notice-bar v-if="industry" mode="vertical" :list="[industry, '只展示同行业总资产排名前3的上市公司','不支持银行、保险相关股票的分析']" color='#f07373' style="margin-bottom: 10rpx;"></u-notice-bar>
 		<view v-if="stockList && stockList.length > 0">
 			<view class="container">
 				<u-tabs-swiper activeColor="#f07373" ref="tabs" :list="tabs" :current="current" @change="changeTab" :is-scroll="false"></u-tabs-swiper>
@@ -127,13 +127,12 @@ export default {
 					totalLiabRatio += sheet.asset_liab_ratio;
 					lastYear = sheet.year;
 				});
-				stockInfo.priceInfo = _this.handlePrice(stock.orgNetfitList, netfitList, totalLiabRatio, lastYear,stock.zyfw);
+				stockInfo.priceInfo = _this.handlePrice(stock.orgNetfitList, netfitList, totalLiabRatio, lastYear,stock.zyfw,stock.totalShares);
 				this.stockList.push(stockInfo);
 			}
 			_this.tabs = tabs;
 		},
 		handleValue(stockInfo, sheet) {
-			let _this = this;
 			stockInfo.yearList.push(sheet.year);
 
 			stockInfo.item.totalAssetsList.columnList[0].values.push(utils.handleFee(sheet.total_assets));
@@ -247,48 +246,85 @@ export default {
 			stockInfo.item.typeList.columnList[2].values.push(utils.handleFee(sheet.ncf_from_fa));
 			stockInfo.item.typeList.columnList[3].values.push(sheet.type);
 		},
-		handlePrice(orgNetfitList, netfitList, totalLiabRatio, lastYear,zyfw) {
+		handlePrice(orgNetfitList, netfitList, totalLiabRatio, lastYear,zyfw,totalShares) {
 			let _this = this;
-			let priceInfo = {
-				avgLiabRatio: 0,
-				ttmPE: 0,
-				lastNetfit: 0,
-				netGroupRatio: 0,
-				netGroupRatioStr: '',
-				orgNetfitList: orgNetfitList,
-				forecastsProfitList: [],
-				forecastsMarketPrice: 0,
-				fiveDiscountPrice: 0,
-				zyfw:zyfw
-			};
 			//计算净利润增速
 			let netGroupRatio = utils.handleNetGroupRatio(netfitList[0], netfitList[netfitList.length - 1], netfitList.length - 1);
-
-			if (netGroupRatio <= 0) {
-				return priceInfo;
-			}
 			let avgLiabRatio = totalLiabRatio / 5;
-			priceInfo.ttmPE = avgLiabRatio >= 70 ? 12 : 20;
-			priceInfo.avgLiabRatio = utils.handleRatio(avgLiabRatio);
-
+			let ttmPE = avgLiabRatio >= 70 ? 12 : 20;
 			let lastNetfit = netfitList[netfitList.length - 1];
-			priceInfo.lastNetfit = utils.handleFee(lastNetfit);
-
-			priceInfo.netGroupRatio = netGroupRatio;
-			priceInfo.netGroupRatioStr = utils.handleRatio(netGroupRatio * 100);
-
-			let groupRatio = 1 + parseFloat(netGroupRatio);
-			let first = lastNetfit * groupRatio;
-			let second = first * groupRatio;
-			let third = second * groupRatio;
-
-			priceInfo.forecastsProfitList.push({ year: lastYear + 1, profit:utils.handleFee(first) });
-			priceInfo.forecastsProfitList.push({ year: lastYear + 2, profit:utils.handleFee(second) });
-			priceInfo.forecastsProfitList.push({ year: lastYear + 3, profit:utils.handleFee(third) });
-
-			let marketPrice = third * priceInfo.ttmPE;
-			priceInfo.forecastsMarketPrice = utils.handleFee(marketPrice);
-			priceInfo.fiveDiscountPrice = utils.handleFee(marketPrice * 0.5);
+			
+			let priceInfo = {
+				avgLiabRatio: utils.handleRatio(avgLiabRatio),
+				ttmPE:ttmPE,
+				netGroupRatioStr: utils.handleRatio(netGroupRatio*100),
+				profitList: [],
+				goodsPriceList:[],
+				zyfw:zyfw,
+				totalShares:utils.handleFee(totalShares)
+			};
+			
+			let orgList=orgNetfitList || []
+			let manualList=[];
+			if (netGroupRatio > 0) {
+				let groupRatio = 1 + parseFloat(netGroupRatio);
+				let first = lastNetfit * groupRatio;
+				let second = first * groupRatio;
+				let third = second * groupRatio;
+				
+				manualList.push({ year: lastYear + 1, netfit:first });
+				manualList.push({ year: lastYear + 2, netfit:second });
+				manualList.push({ year: lastYear + 3, netfit:third });
+			}
+			for(let i=1;i<=3;i++){
+				let year=lastYear+i;
+				let orgs = orgList.filter(item => {return item.year==year});
+				let org=orgs && orgs.length>0?orgs[0]:{year:year,netfit:0};
+				let manuals = manualList.filter(item=>{return item.year==year});
+				let manual=manuals && manuals.length>0?manuals[0]:{year:year,netfit:0};
+				
+				let minVal=0;
+				if(netGroupRatio>0){
+					if(!orgs || orgs.length==0){
+						minVal=manual.netfit;
+					}else{
+						minVal=org.netfit>manual.netfit?manual.netfit:org.netfit;
+					}
+				}else{
+					minVal=org.netfit;
+				}
+				
+				priceInfo.profitList.push({
+					year:year,
+					orgProfit:utils.handleFee(org.netfit),
+					manualProfit:utils.handleFee(manual.netfit),
+					minVal:utils.handleFee(minVal),
+					marketPrice:minVal * ttmPE,
+					marketPriceStr:utils.handleFee(minVal * ttmPE)
+				})
+			}
+			//好价格确定方法第一种：用三年后合理市值的一半作为当年的投资好机会（好价格 1=3年后合理市值/2/总股本）。
+			let fiveDiscount=(priceInfo.profitList[2].marketPrice/(totalShares*2)).toFixed(2);
+			//好价格确定方法第二种：在当年合理市值以下买入，具体根据个人风险承受能力不同来制定买入标准。
+			let sevenDiscount=(priceInfo.profitList[0].marketPrice/totalShares*0.7).toFixed(2);
+			let eightDiscount=(priceInfo.profitList[0].marketPrice/totalShares*0.8).toFixed(2);
+			let nineDiscount=(priceInfo.profitList[0].marketPrice/totalShares*0.9).toFixed(2);
+			priceInfo.goodsPriceList.push({
+				discount:'5折',
+				price:fiveDiscount
+			});
+			priceInfo.goodsPriceList.push({
+				discount:'7折',
+				price:sevenDiscount
+			});
+			priceInfo.goodsPriceList.push({
+				discount:'8折',
+				price:eightDiscount
+			});
+			priceInfo.goodsPriceList.push({
+				discount:'9折',
+				price:nineDiscount
+			});
 			return priceInfo;
 		}
 	}

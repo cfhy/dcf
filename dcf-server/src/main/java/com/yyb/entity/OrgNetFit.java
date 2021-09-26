@@ -17,5 +17,5 @@ public class OrgNetFit {
     private String stock_name;
     private String stock_code;
     private Integer year;
-    private String netfit;
+    private BigDecimal netfit;
 }

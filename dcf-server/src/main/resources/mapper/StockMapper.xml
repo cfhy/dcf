@@ -9,7 +9,7 @@
     </select>
 
     <select id="selectByName"  resultType="com.yyb.entity.Stock">
-        select stock_name,stock_code,industry,total_assets,operate_range
+        select stock_name,stock_code,industry,total_assets,operate_range,total_shares
         from stock
         where industry=
         (
@@ -26,10 +26,4 @@
          limit 3
     </select>
 
-    <select id="selectNoNetfit" resultType="com.yyb.entity.Stock">
-        select distinct t1.stock_name,t1.stock_code
-        from stock t1
-        left join org_net_fit t2 on t1.stock_code=t2.stock_code
-        where t2.stock_code is null
-    </select>
 </mapper>

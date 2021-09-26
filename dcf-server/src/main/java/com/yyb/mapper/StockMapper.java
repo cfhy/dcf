@@ -15,6 +15,4 @@ public interface StockMapper extends BaseMapper<Stock> {
    List<Stock> selectByName(@Param("stockName")String stockName);
 
    List<Stock> selectByIndustry(@Param("industry") String industry);
-
-   List<Stock> selectNoNetfit();
 }

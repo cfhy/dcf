@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yyb.dto.IndustryRank;
 import com.yyb.entity.OrgNetFit;
+import com.yyb.utils.DecimalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -59,7 +60,7 @@ public class TongHuaSunCrawler {
             if(CollUtil.isEmpty(netfitRow))return Collections.emptyList();
             if(CollUtil.isNotEmpty(bodyList) && bodyList.size()>=index){
                 for (int i = index,j=0; i < bodyList.size(); i++,j++) {
-                    netfitList.get(j).setNetfit(bodyList.get(i).select("span").text());
+                    netfitList.get(j).setNetfit(DecimalUtil.handleMoney(bodyList.get(i).select("span").text()));
                 }
             }
         } catch (IOException e) {

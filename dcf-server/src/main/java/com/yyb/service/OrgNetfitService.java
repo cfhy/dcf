@@ -20,7 +20,7 @@ public class OrgNetfitService {
     @Autowired
     private OrgNetFitMapper orgNetFitMapper;
     @Autowired
-    private StockMapper stockMapper;
+    private StockService stockService;
     @Autowired
     private TongHuaSunCrawler tongHuaSunCrawler;
 
@@ -28,7 +28,7 @@ public class OrgNetfitService {
     @Scheduled(cron = "0 0 1 15 * ?")
     public void syncOrgNetFit() {
         orgNetFitMapper.delete(Wrappers.emptyWrapper());
-        List<Stock> list = stockMapper.selectNoNetfit();
+        List<Stock> list = stockService.getStockList();
         if (CollUtil.isEmpty(list)) return;
         list.forEach(stock -> {
             List<OrgNetFit> profitList = tongHuaSunCrawler.getForecastsProfitsData(stock.getStock_code());
