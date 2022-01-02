@@ -2,10 +2,9 @@ package com.yyb.service;
 
 
 import cn.hutool.core.collection.CollUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
+import cn.hutool.json.JSONUtil;
 import com.yyb.entity.dfcf.*;
 import com.yyb.utils.DecimalUtil;
-import com.yyb.utils.JsonUtil;
 import com.yyb.utils.RestTemplateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -14,6 +13,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -30,6 +30,18 @@ import java.util.List;
 public class DfcfCrawler {
     @Autowired
     private RestTemplateUtils restTemplateUtils;
+
+    /**
+     * 获取筛选股本数大于0的股票
+     */
+    public List<String> getStockList() {
+        String url = "https://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_gbzb01(4|0w)]&p=1&jn=RkQAkazk&ps=10000&s=cz_gbzb01(4|0w)&st=1&r=1641114468168";
+        String s = restTemplateUtils.httpGet(url);
+        if(StringUtils.isEmpty(s))return Collections.emptyList();
+         s = s.substring(s.indexOf("{"));
+        StockWrapEntity body = JSONUtil.toBean(s,StockWrapEntity.class);
+        return body == null ? Collections.emptyList() : body.getResults();
+    }
 
     /**
      * 获取日期
