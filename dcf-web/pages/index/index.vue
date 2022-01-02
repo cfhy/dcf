@@ -40,10 +40,13 @@ export default {
 			tabs: [],
 			industry: '',
 			stockList: [],
-			showNoData:false
+			showNoData:false,
+			longitude:0,
+			latitude:0
 		};
 	},
 	onShow(options) {
+		let _this = this
 		this.stockName = getApp().globalData.searchText;
 		if (!this.stockName) {
 			this.stockName = '贵州茅台';
@@ -134,117 +137,30 @@ export default {
 		},
 		handleValue(stockInfo, sheet) {
 			stockInfo.yearList.push(sheet.year);
-
-			stockInfo.item.totalAssetsList.columnList[0].values.push(utils.handleFee(sheet.total_assets));
-			stockInfo.item.totalAssetsList.columnList[1].values.push(utils.handleRatio(sheet.total_assets_yoy));
-			stockInfo.item.totalAssetsList.columnList[2].values.push(utils.handleFee(sheet.total_liab));
-			stockInfo.item.totalAssetsList.columnList[3].values.push(utils.handleRatio(sheet.asset_liab_ratio));
-
-			stockInfo.item.liabList.columnList[0].values.push(utils.handleFee(sheet.currency_funds));
-			stockInfo.item.liabList.columnList[1].values.push(utils.handleFee(sheet.tradable_fnncl_assets));
-			stockInfo.item.liabList.columnList[2].values.push(utils.handleFee(sheet.othr_current_assets_lccp));
-			stockInfo.item.liabList.columnList[3].values.push(utils.handleFee(sheet.trade_financial_jgxck));
-			stockInfo.item.liabList.columnList[4].values.push(utils.handleFee(sheet.currency_funds_plus));
-			stockInfo.item.liabList.columnList[5].values.push(utils.handleFee(sheet.st_loan));
-			stockInfo.item.liabList.columnList[6].values.push(utils.handleFee(sheet.noncurrent_liab_due_in1y));
-			stockInfo.item.liabList.columnList[7].values.push(utils.handleFee(sheet.lt_loan));
-			stockInfo.item.liabList.columnList[8].values.push(utils.handleFee(sheet.bond_payable));
-			stockInfo.item.liabList.columnList[9].values.push(utils.handleFee(sheet.lt_payable));
-			stockInfo.item.liabList.columnList[10].values.push(utils.handleFee(sheet.total_liab_with_interest));
-			stockInfo.item.liabList.columnList[11].values.push(utils.handleFee(sheet.liab_zhbzj_with_yxfz_diff));
-			stockInfo.item.liabList.columnList[12].values.push(utils.handleFee(sheet.total_st_liab));
-			stockInfo.item.liabList.columnList[13].values.push(utils.handleFee(sheet.currency_funds_with_dqfz_diff));
-
-			stockInfo.item.arBrApBpList.columnList[0].values.push(utils.handleFee(sheet.bill_payable));
-			stockInfo.item.arBrApBpList.columnList[1].values.push(utils.handleFee(sheet.accounts_payable));
-			stockInfo.item.arBrApBpList.columnList[2].values.push(utils.handleFee(sheet.pre_receivable));
-			stockInfo.item.arBrApBpList.columnList[3].values.push(utils.handleFee(sheet.contract_liabilities));
-			stockInfo.item.arBrApBpList.columnList[4].values.push(utils.handleFee(sheet.total_ap_bp_pr));
-			stockInfo.item.arBrApBpList.columnList[5].values.push(utils.handleFee(sheet.bills_receivable));
-			stockInfo.item.arBrApBpList.columnList[6].values.push(utils.handleFee(sheet.account_receivable));
-			stockInfo.item.arBrApBpList.columnList[7].values.push(utils.handleFee(sheet.finance_rece));
-			stockInfo.item.arBrApBpList.columnList[8].values.push(utils.handleFee(sheet.pre_payment));
-			stockInfo.item.arBrApBpList.columnList[9].values.push(utils.handleFee(sheet.contractual_assets));
-			stockInfo.item.arBrApBpList.columnList[10].values.push(utils.handleFee(sheet.total_ar_br));
-			stockInfo.item.arBrApBpList.columnList[11].values.push(utils.handleFee(sheet.ap_bp_pr_with_ar_br_diff));
-			stockInfo.item.arBrApBpList.columnList[12].values.push(utils.handleRatio(sheet.account_receivable_ratio));
-
-			stockInfo.item.fixedAssetList.columnList[0].values.push(utils.handleFee(sheet.fixed_asset));
-			stockInfo.item.fixedAssetList.columnList[1].values.push(utils.handleFee(sheet.construction_in_process));
-			stockInfo.item.fixedAssetList.columnList[2].values.push(utils.handleFee(sheet.project_goods_and_material));
-			stockInfo.item.fixedAssetList.columnList[3].values.push(utils.handleFee(sheet.total_fixed_asset));
-			stockInfo.item.fixedAssetList.columnList[4].values.push(utils.handleRatio(sheet.fixed_asset_ratio));
-
-			stockInfo.item.investmentAssetsList.columnList[0].values.push(utils.handleFee(sheet.creditor_invest));
-			stockInfo.item.investmentAssetsList.columnList[1].values.push(utils.handleFee(sheet.other_creditor_invest));
-			stockInfo.item.investmentAssetsList.columnList[2].values.push(utils.handleFee(sheet.fvtpl_finassets));
-			stockInfo.item.investmentAssetsList.columnList[3].values.push(utils.handleFee(sheet.saleable_finacial_assets));
-			stockInfo.item.investmentAssetsList.columnList[4].values.push(utils.handleFee(sheet.held_to_maturity_invest));
-			stockInfo.item.investmentAssetsList.columnList[5].values.push(utils.handleFee(sheet.lt_equity_invest));
-			stockInfo.item.investmentAssetsList.columnList[6].values.push(utils.handleFee(sheet.invest_property));
-			stockInfo.item.investmentAssetsList.columnList[7].values.push(utils.handleFee(sheet.othr_equity_instruments));
-			stockInfo.item.investmentAssetsList.columnList[8].values.push(utils.handleFee(sheet.other_illiquid_fnncl_assets));
-			stockInfo.item.investmentAssetsList.columnList[9].values.push(utils.handleFee(sheet.total_fnncl_assets));
-			stockInfo.item.investmentAssetsList.columnList[10].values.push(utils.handleRatio(sheet.total_fnncl_assets_ratio));
-
-			stockInfo.item.inventoryList.columnList[0].values.push(utils.handleRatio(sheet.only_account_receivable_ratio));
-			stockInfo.item.inventoryList.columnList[1].values.push(utils.handleFee(sheet.inventory));
-			stockInfo.item.inventoryList.columnList[2].values.push(utils.handleRatio(sheet.inventory_with_assets_ratio));
-			stockInfo.item.inventoryList.columnList[3].values.push(utils.handleFee(sheet.goodwill));
-			stockInfo.item.inventoryList.columnList[4].values.push(utils.handleRatio(sheet.goodwill_with_assets_ratio));
-
-			stockInfo.item.incomeList.columnList[0].values.push(utils.handleFee(sheet.operate_income));
-			stockInfo.item.incomeList.columnList[1].values.push(utils.handleRatio(sheet.operate_income_yoy));
-			stockInfo.item.incomeList.columnList[2].values.push(utils.handleFee(sheet.cash_received_of_sales_service));
-			stockInfo.item.incomeList.columnList[3].values.push(utils.handleRatio(sheet.cash_received_of_sales_service_ratio));
-
-			stockInfo.item.grossSellingRateList.columnList[0].values.push(utils.handleFee(sheet.operate_income));
-			stockInfo.item.grossSellingRateList.columnList[1].values.push(utils.handleFee(sheet.operating_costs));
-			stockInfo.item.grossSellingRateList.columnList[2].values.push(utils.handleFee(sheet.gross_profit));
-			stockInfo.item.grossSellingRateList.columnList[3].values.push(utils.handleRatio(sheet.gross_profit_ratio));
-			stockInfo.item.grossSellingRateList.columnList[4].values.push(utils.handleRatio(sheet.gross_profit_ratio_wave));
-
-			stockInfo.item.feeRatioList.columnList[0].values.push(utils.handleFee(sheet.sales_fee));
-			stockInfo.item.feeRatioList.columnList[1].values.push(utils.handleFee(sheet.manage_fee));
-			stockInfo.item.feeRatioList.columnList[2].values.push(utils.handleFee(sheet.financing_expenses));
-			stockInfo.item.feeRatioList.columnList[3].values.push(utils.handleFee(sheet.rad_cost));
-			stockInfo.item.feeRatioList.columnList[4].values.push(utils.handleFee(sheet.total_fee));
-			stockInfo.item.feeRatioList.columnList[5].values.push(utils.handleRatio(sheet.total_fee_ratio));
-			stockInfo.item.feeRatioList.columnList[6].values.push(utils.handleRatio(sheet.total_fee_with_mll_ratio));
-			
-			stockInfo.item.saleFeeList.columnList[0].values.push(utils.handleRatio(sheet.sales_fee_ratio));
-
-			stockInfo.item.mainProfitList.columnList[0].values.push(utils.handleFee(sheet.operate_income));
-			stockInfo.item.mainProfitList.columnList[1].values.push(utils.handleFee(sheet.operating_costs));
-			stockInfo.item.mainProfitList.columnList[2].values.push(utils.handleFee(sheet.operating_taxes_and_surcharge));
-			stockInfo.item.mainProfitList.columnList[3].values.push(utils.handleFee(sheet.total_fee));
-			stockInfo.item.mainProfitList.columnList[4].values.push(utils.handleFee(sheet.main_profit));
-			stockInfo.item.mainProfitList.columnList[5].values.push(utils.handleRatio(sheet.main_profit_ratio));
-			stockInfo.item.mainProfitList.columnList[6].values.push(utils.handleFee(sheet.operate_profit));
-			stockInfo.item.mainProfitList.columnList[7].values.push(utils.handleRatio(sheet.main_profit_with_profit_total_ratio));
-
-			stockInfo.item.netProfitList.columnList[0].values.push(utils.handleFee(sheet.net_profit));
-			stockInfo.item.netProfitList.columnList[1].values.push(utils.handleFee(sheet.ncf_from_oa));
-			stockInfo.item.netProfitList.columnList[2].values.push(utils.handleRatio(sheet.net_profit_ratio));
-
-			stockInfo.item.netProfitAtsopcList.columnList[0].values.push(utils.handleFee(sheet.net_profit_atsopc));
-			stockInfo.item.netProfitAtsopcList.columnList[1].values.push(utils.handleRatio(sheet.parent_netprofit_yoy));
-			stockInfo.item.netProfitAtsopcList.columnList[2].values.push(utils.handleRatio(sheet.roe));
-			stockInfo.item.netProfitAtsopcList.columnList[3].values.push(utils.handleFee(sheet.ncf_from_oa));
-			stockInfo.item.netProfitAtsopcList.columnList[4].values.push(utils.handleRatio(sheet.netcash_operate_yoy));
-
-			stockInfo.item.futureGroupList.columnList[0].values.push(utils.handleFee(sheet.cash_paid_for_assets));
-			stockInfo.item.futureGroupList.columnList[1].values.push(utils.handleFee(sheet.ncf_from_oa));
-			stockInfo.item.futureGroupList.columnList[2].values.push(utils.handleRatio(sheet.buy_ratio));
-
-			stockInfo.item.bonusList.columnList[0].values.push(utils.handleFee(sheet.bonus_fee));
-			stockInfo.item.bonusList.columnList[1].values.push(utils.handleFee(sheet.net_profit_atsopc));
-			stockInfo.item.bonusList.columnList[2].values.push(utils.handleRatio(sheet.bonus_ratio));
-
-			stockInfo.item.typeList.columnList[0].values.push(utils.handleFee(sheet.ncf_from_oa));
-			stockInfo.item.typeList.columnList[1].values.push(utils.handleFee(sheet.ncf_from_ia));
-			stockInfo.item.typeList.columnList[2].values.push(utils.handleFee(sheet.ncf_from_fa));
-			stockInfo.item.typeList.columnList[3].values.push(sheet.type);
+			//遍历item
+			let props= Object.keys(stockInfo.item);
+			props.forEach(prop=>{
+				let columnList=stockInfo.item[prop].columnList;
+				columnList.forEach(column=>{
+					let val=sheet[column.fieldName];
+					let isWarn=false;
+					let showVal=val;
+					if(column.min!=undefined && column.min!=null){
+						if(val<=column.min){
+							isWarn=true;
+						}
+					}
+					if(column.max!=undefined && column.max!=null){
+						if(val>=column.max){
+							isWarn=true;
+						}
+					}
+					column.values.push({
+						isWarn:isWarn,
+						value:column.notCalc?val: column.ratio?utils.handleRatio(val):utils.handleFee(val)
+					})
+				})
+			})
 		},
 		handlePrice(orgNetfitList, netfitList, totalLiabRatio, lastYear,zyfw,totalShares) {
 			let _this = this;

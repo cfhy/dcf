@@ -38,11 +38,30 @@
             },
             "ios" : {},
             "sdkConfigs" : {
-                "geolocation" : {},
-                "ad" : {}
+                "geolocation" : {
+                    "baidu" : {
+                        "__platform__" : [ "android" ],
+                        "appkey_ios" : "",
+                        "appkey_android" : "jRRqRvu6PBdSL3gVLNkcW0CqmEjE2EdD"
+                    }
+                },
+                "ad" : {},
+                "maps" : {
+                    "baidu" : {
+                        "appkey_ios" : "jRRqRvu6PBdSL3gVLNkcW0CqmEjE2EdD",
+                        "appkey_android" : "jRRqRvu6PBdSL3gVLNkcW0CqmEjE2EdD"
+                    }
+                },
+                "push" : {}
             },
             "splashscreen" : {
-                "useOriginalMsgbox" : true
+                "useOriginalMsgbox" : true,
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : "H:/googleDownload/bootstrap.9/res/drawable-hdpi/bootstrap.9.png",
+                    "xhdpi" : "H:/googleDownload/bootstrap.9/res/drawable-xhdpi/bootstrap.9.png",
+                    "xxhdpi" : "H:/googleDownload/bootstrap.9/res/drawable-xxhdpi/bootstrap.9.png"
+                }
             }
         }
     },

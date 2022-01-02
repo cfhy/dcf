@@ -1,23 +1,35 @@
 export const stockData = {
 	yearList: [],
-	priceInfo:{},
+	priceInfo: {},
 	item: {
 		totalAssetsList: {
 			columnList: [{
 					title: '总资产',
-					values: []
+					fieldName: 'total_assets',
+					values: [],
+					mainQuato: true,
 				},
 				{
 					title: '总资产增长率',
-					values: []
+					fieldName: 'total_assets_yoy',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 0
 				},
 				{
 					title: '总负债',
-					values: []
+					fieldName: 'total_liab',
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: '资产负债率',
-					values: []
+					fieldName: 'asset_liab_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 70
 				},
 			],
 			title: '第1步：看总资产和资产负债率',
@@ -36,59 +48,78 @@ export const stockData = {
 		liabList: {
 			columnList: [{
 					title: '货币资金',
+					fieldName: 'currency_funds',
 					values: []
 				},
 				{
 					title: '交易性金融资产',
+					fieldName: 'tradable_fnncl_assets',
 					values: []
 				},
 				{
 					title: '其他流动资产里的理财产品',
+					fieldName: 'othr_current_assets_lccp',
 					values: []
 				},
 				{
 					title: '其他流动资产里的结构性存款',
+					fieldName: 'trade_financial_jgxck',
 					values: []
 				},
 				{
 					title: '准货币资金',
-					values: []
+					fieldName: 'currency_funds_plus',
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: '短期借款',
+					fieldName: 'st_loan',
 					values: []
 				},
 				{
 					title: '一年内到期的非流动负债',
+					fieldName: 'noncurrent_liab_due_in1y',
 					values: []
 				},
 				{
 					title: '长期借款',
+					fieldName: 'lt_loan',
 					values: []
 				},
 				{
 					title: '应付债券',
+					fieldName: 'bond_payable',
 					values: []
 				},
 				{
 					title: '长期应付款',
+					fieldName: 'lt_payable',
 					values: []
 				},
 				{
 					title: '有息负债',
+					fieldName: 'total_liab_with_interest',
 					values: []
 				},
 				{
 					title: '准货币资金与有息负债之差',
-					values: []
+					fieldName: 'liab_zhbzj_with_yxfz_diff',
+					values: [],
+					mainQuato: true,
+					min: 0
 				},
 				{
 					title: '短期有息负债',
+					fieldName: 'total_st_liab',
 					values: []
 				},
 				{
 					title: '货币资金减短期有息负债的差额',
-					values: []
+					fieldName: 'currency_funds_with_dqfz_diff',
+					values: [],
+					mainQuato: true,
+					min: 0
 				}
 			],
 			title: '第2步：看有息负债和准货币资金',
@@ -105,55 +136,75 @@ export const stockData = {
 		arBrApBpList: {
 			columnList: [{
 					title: '应付票据',
+					fieldName: 'bill_payable',
 					values: []
 				},
 				{
 					title: '应付账款',
+					fieldName: 'accounts_payable',
 					values: []
 				},
 				{
 					title: '预收款项',
+					fieldName: 'pre_receivable',
 					values: []
 				},
 				{
 					title: '合同负债',
+					fieldName: 'contract_liabilities',
 					values: []
 				},
 				{
 					title: '应付预收合计',
-					values: []
+					fieldName: 'total_ap_bp_pr',
+					values: [],
+					mainQuato: true,
 				},
 				{
 					title: '应收票据',
+					fieldName: 'bills_receivable',
 					values: []
 				},
 				{
 					title: '应收账款',
+					fieldName: 'account_receivable',
 					values: []
 				},
 				{
 					title: '应收款项融资',
+					fieldName: 'finance_rece',
 					values: []
 				},
 				{
 					title: '预付款项',
+					fieldName: 'pre_payment',
 					values: []
 				},
 				{
 					title: '合同资产',
+					fieldName: 'contractual_assets',
 					values: []
 				},
 				{
 					title: '应收预付合计',
-					values: []
+					fieldName: 'total_ar_br',
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: '应付预收与应收预付之差',
-					values: []
+					fieldName: 'ap_bp_pr_with_ar_br_diff',
+					values: [],
+					mainQuato: true,
+					min: 0
 				},
 				{
 					title: '应收账款、合同资产占总资产的比率',
-					values: []
+					fieldName: 'account_receivable_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 15
 				},
 			],
 			title: '第3步：看应收应付和预付预收',
@@ -171,77 +222,98 @@ export const stockData = {
 		fixedAssetList: {
 			columnList: [{
 					title: '固定资产',
-					values: []
+					fieldName: 'fixed_asset',
+					values: [],
 				},
 				{
 					title: '在建工程',
+					fieldName: 'construction_in_process',
 					values: []
 				},
 				{
 					title: '工程物资',
+					fieldName: 'project_goods_and_material',
 					values: []
 				},
 				{
 					title: '固定资产合计',
+					fieldName: 'total_fixed_asset',
 					values: []
 				},
 				{
 					title: '固定资产合计占总资产的比率',
-					values: []
+					fieldName: 'fixed_asset_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 40
 				},
 			],
 			title: '第4步：看固定资产',
 			bodyList: [
-			 '看固定资产，判断公司的轻重；',
-			 '1、比率大于40%，重资产型公司。维持竞争力的成本比较高，风险相对较大。小于40%，轻资产型公司。保持持续的竞争力成本相对要低一些；',
+				'看固定资产，判断公司的轻重；',
+				'1、比率大于40%，重资产型公司。维持竞争力的成本比较高，风险相对较大。小于40%，轻资产型公司。保持持续的竞争力成本相对要低一些；',
 			 '2、在投资实践中，一般选择比率小于20%的轻资产型公司，把比率大于40%的公司淘汰掉。在特别情况下，对于行业第一名并且同时具有3个或以上核心竞争力的公司可以放宽到50%，大于50%的一律淘汰掉；'
 			],
 		},
 		investmentAssetsList: {
-			columnList: [
-				{
+			columnList: [{
 					title: '债权投资',
+					fieldName: 'creditor_invest',
 					values: []
 				},
 				{
 					title: '其他债权投资',
+					fieldName: 'other_creditor_invest',
 					values: []
 				},
 				{
 					title: '以公允价值计量且其变动计入当期损益的金融资产',
+					fieldName: 'fvtpl_finassets',
 					values: []
 				},
 				{
 					title: '可供出售金融资产',
+					fieldName: 'saleable_finacial_assets',
 					values: []
 				},
 				{
 					title: '持有至到期投资',
+					fieldName: 'held_to_maturity_invest',
 					values: []
 				},
 				{
 					title: '长期股权投资',
+					fieldName: 'lt_equity_invest',
 					values: []
 				},
 				{
 					title: '投资性房地产',
+					fieldName: 'invest_property',
 					values: []
 				},
 				{
 					title: '其他权益工具投资',
+					fieldName: 'othr_equity_instruments',
 					values: []
 				},
 				{
 					title: '其他非流动金融资产',
+					fieldName: 'other_illiquid_fnncl_assets',
 					values: []
 				},
 				{
 					title: '投资类资产合计',
+					fieldName: 'total_fnncl_assets',
 					values: []
 				},
 				{
 					title: '投资类资产合计占总资产的比率',
-					values: []
+					fieldName: 'total_fnncl_assets_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 10
 				},
 			],
 			title: '第5步：看投资类资产',
@@ -254,26 +326,40 @@ export const stockData = {
 			],
 		},
 		inventoryList: {
-			columnList: [
-				{
+			columnList: [{
 					title: '应收账款占总资产比率',
-					values: []
+					fieldName: 'only_account_receivable_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 5
 				},
 				{
 					title: '存货',
-					values: []
+					fieldName: 'inventory',
+					values: [],
+
 				},
 				{
 					title: '存货占总资产比率',
-					values: []
+					fieldName: 'inventory_with_assets_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 15
 				},
 				{
 					title: '商誉',
+					fieldName: 'goodwill',
 					values: []
 				},
 				{
 					title: '商誉占总资产比率',
-					values: []
+					fieldName: 'goodwill_with_assets_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 10
 				}
 			],
 			title: '第6步：看存货、商誉',
@@ -286,19 +372,30 @@ export const stockData = {
 		incomeList: {
 			columnList: [{
 					title: '营业收入',
-					values: []
+					fieldName: 'operate_income',
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: '营业收入增长率',
-					values: []
+					fieldName: 'operate_income_yoy',
+					ratio:true,
+					values: [],
+					mainQuato: true,
+					min: 0
 				},
 				{
 					title: '销售商品、提供劳务收到的现金',
+					fieldName: 'cash_received_of_sales_service',
 					values: []
 				},
 				{
 					title: '销售商品、提供劳务收到的现金与营业收入的比率',
-					values: []
+					fieldName: 'cash_received_of_sales_service_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 100
 				},
 			],
 			title: '第7步：看营业收入',
@@ -313,24 +410,35 @@ export const stockData = {
 		grossSellingRateList: {
 			columnList: [{
 					title: '营业收入',
+					fieldName: 'operate_income',
 					values: []
 				},
 				{
 					title: '营业成本',
+					fieldName: 'operating_costs',
 					values: []
 				},
 				{
 					title: '毛利',
+					fieldName: 'gross_profit',
 					values: []
 				},
 				{
 					title: '毛利率',
-					values: []
+					fieldName: 'gross_profit_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 40
 				},
 				{
 					title: '毛利率波动幅度',
-					values: []
-				}
+					fieldName: 'gross_profit_ratio_wave',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max:20
+				},
 			],
 			title: '第8步：看毛利率',
 			bodyList: [
@@ -343,31 +451,42 @@ export const stockData = {
 		feeRatioList: {
 			columnList: [{
 					title: '销售费用',
+					fieldName: 'sales_fee',
 					values: []
 				},
 				{
 					title: '管理费用',
+					fieldName: 'manage_fee',
 					values: []
 				},
 				{
 					title: '财务费用',
+					fieldName: 'financing_expenses',
 					values: []
 				},
 				{
 					title: '研发费用',
+					fieldName: 'rad_cost',
 					values: []
 				},
 				{
 					title: '四费合计',
+					fieldName: 'total_fee',
 					values: []
 				},
 				{
 					title: '期间费用率',
+					fieldName: 'total_fee_ratio',
+					ratio: true,
 					values: []
 				},
 				{
 					title: '期间费用率/毛利率',
-					values: []
+					fieldName: 'total_fee_with_mll_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 40
 				},
 			],
 			title: '第9步：看期间费用率',
@@ -379,10 +498,13 @@ export const stockData = {
 		},
 		saleFeeList: {
 			columnList: [{
-					title: '销售费用率',
-					values: []
-				}
-			],
+				title: '销售费用率',
+				fieldName: 'sales_fee_ratio',
+				ratio:true,
+				values: [],
+				mainQuato: true,
+				max: 15
+			}],
 			title: '第10步：看销售费用率',
 			bodyList: [
 				'看销售费用率，了解公司产品的销售难易程度',
@@ -393,35 +515,49 @@ export const stockData = {
 		mainProfitList: {
 			columnList: [{
 					title: '营业收入',
+					fieldName: 'operate_income',
 					values: []
 				},
 				{
 					title: '营业成本',
+					fieldName: 'operating_costs',
 					values: []
 				},
 				{
 					title: '营业税金及附加',
+					fieldName: 'operating_taxes_and_surcharge',
 					values: []
 				},
 				{
 					title: '四费合计',
+					fieldName: 'total_fee',
 					values: []
 				},
 				{
 					title: '主营利润',
+					fieldName: 'main_profit',
 					values: []
 				},
 				{
 					title: '主营利润率',
-					values: []
+					fieldName: 'main_profit_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 15
 				},
 				{
 					title: '营业利润',
+					fieldName: 'operate_profit',
 					values: []
 				},
 				{
 					title: '主营利润占营业利润的比率',
-					values: []
+					fieldName: 'main_profit_with_profit_total_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 80
 				},
 			],
 			title: '第11步：看主营利润',
@@ -436,15 +572,22 @@ export const stockData = {
 		netProfitList: {
 			columnList: [{
 					title: '净利润',
-					values: []
+					fieldName: 'net_profit',
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: '经营活动产生的现金流量净额',
+					fieldName: 'ncf_from_oa',
 					values: []
 				},
 				{
 					title: '净利润现金比率',
-					values: []
+					fieldName: 'net_profit_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 100
 				},
 			],
 			title: '第12步：看净利润',
@@ -457,23 +600,38 @@ export const stockData = {
 		netProfitAtsopcList: {
 			columnList: [{
 					title: '归属于母公司所有者的净利润',
-					values: []
+					fieldName: 'net_profit_atsopc',
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: '归母净利润增长率',
-					values: []
+					fieldName: 'parent_netprofit_yoy',
+					ratio: true,
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: 'ROE',
-					values: []
+					fieldName: 'roe',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 15
 				},
 				{
 					title: '经营活动产生的现金流量净额',
-					values: []
+					fieldName: 'ncf_from_oa',
+					values: [],
+					mainQuato: true
 				},
 				{
 					title: '经营活动产生的现金流量净额增长率',
-					values: []
+					fieldName: 'netcash_operate_yoy',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 0
 				},
 			],
 			title: '第13步：看归母净利润、经营活动产生的现金流量净额',
@@ -489,15 +647,22 @@ export const stockData = {
 		futureGroupList: {
 			columnList: [{
 					title: '购建固定资产、无形资产和其他长期资产支付的现金',
+					fieldName: 'cash_paid_for_assets',
 					values: []
 				},
 				{
 					title: '经营活动产生的现金流量净额',
+					fieldName: 'ncf_from_oa',
 					values: []
 				},
 				{
 					title: '购建支付的现金与经营活动产生的现金流量净额的比率',
-					values: []
+					fieldName: 'buy_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					max: 100,
+					min: 3
 				}
 			],
 			title: '第14步：看购建固定资产、无形资产和其他长期资产支付的现金',
@@ -510,16 +675,23 @@ export const stockData = {
 		bonusList: {
 			columnList: [{
 					title: '年度累计分红总额',
+					fieldName: 'bonus_fee',
 					values: []
 				},
 				{
 					title: '归属于母公司所有者的净利润',
+					fieldName: 'net_profit_atsopc',
 					values: []
 				},
 				{
-				title: '年度股利支付率',
-				values: []
-			}],
+					title: '年度股利支付率',
+					fieldName: 'bonus_ratio',
+					ratio: true,
+					values: [],
+					mainQuato: true,
+					min: 30
+				},
+			],
 			title: '第15步：看分红，判断公司的品质',
 			bodyList: [
 				'年度股利支付率=年度累计分红总额/归属于母公司股东的净利润',
@@ -529,19 +701,25 @@ export const stockData = {
 		typeList: {
 			columnList: [{
 					title: '经营活动产生的现金流量净额',
+					fieldName: 'ncf_from_oa',
 					values: []
 				},
 				{
 					title: '投资活动产生的现金流量净额',
+					fieldName: 'ncf_from_ia',
 					values: []
 				},
 				{
 					title: '筹资活动产生的现金流量净额',
+					fieldName: 'ncf_from_fa',
 					values: []
 				},
 				{
 					title: '三项经营活动的类型',
-					values: []
+					fieldName: 'type',
+					notCalc:true,
+					values: [],
+					mainQuato: true
 				},
 			],
 			title: '第16步：看三大活动现金流量净额的组合类型',
