@@ -437,7 +437,10 @@ export const stockData = {
 					ratio: true,
 					values: [],
 					mainQuato: true,
-					max:20
+					warnRule:function(val){
+						let abs = Math.abs(val);
+						return val>abs;
+					}
 				},
 			],
 			title: '第8步：看毛利率',
@@ -609,7 +612,8 @@ export const stockData = {
 					fieldName: 'parent_netprofit_yoy',
 					ratio: true,
 					values: [],
-					mainQuato: true
+					mainQuato: true,
+					min: 0
 				},
 				{
 					title: 'ROE',
@@ -719,7 +723,10 @@ export const stockData = {
 					fieldName: 'type',
 					notCalc:true,
 					values: [],
-					mainQuato: true
+					mainQuato: true,
+					warnRule:function(val){
+						return ['正正负','正负负'].indexOf(val)==-1;
+					}
 				},
 			],
 			title: '第16步：看三大活动现金流量净额的组合类型',

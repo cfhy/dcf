@@ -145,14 +145,18 @@ export default {
 					let val=sheet[column.fieldName];
 					let isWarn=false;
 					let showVal=val;
-					if(column.min!=undefined && column.min!=null){
-						if(val<=column.min){
-							isWarn=true;
+					if(column.warnRule){
+						isWarn=column.warnRule(val);
+					}else{
+						if(column.min!=undefined && column.min!=null){
+							if(val<=column.min){
+								isWarn=true;
+							}
 						}
-					}
-					if(column.max!=undefined && column.max!=null){
-						if(val>=column.max){
-							isWarn=true;
+						if(column.max!=undefined && column.max!=null){
+							if(val>=column.max){
+								isWarn=true;
+							}
 						}
 					}
 					column.values.push({

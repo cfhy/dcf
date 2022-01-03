@@ -1,5 +1,5 @@
 // const baseUrl = 'http://47.108.180.48:8081/'   
- const baseUrl = process.env.NODE_ENV === 'development'?'http://localhost:8081/':'http://47.108.180.48:8081/'
+ const baseUrl = process.env.NODE_ENV === 'development1'?'http://localhost:8081/':'http://47.108.180.48:8081/'
 const install = (Vue, vm) => {
 	// 此为自定义配置参数，具体参数见上方说明
 	Vue.prototype.$u.http.setConfig({
