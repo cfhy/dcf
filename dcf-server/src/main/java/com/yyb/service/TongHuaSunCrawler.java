@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,6 +25,9 @@ import java.util.*;
 @Service
 @Slf4j
 public class TongHuaSunCrawler {
+    @Autowired
+    private StockService stockService;
+
     /**
      * 获取机构三年的业绩预测数据
      *
@@ -70,7 +74,7 @@ public class TongHuaSunCrawler {
     }
 
     public List<IndustryRank> getIndustryRankList(String stockCode) {
-        String url = String.format("http://basic.10jqka.com.cn/%s/field.html", stockCode.substring(2));
+        String url = String.format("http://basic.10jqka.com.cn/%s/field.html", stockCode);
         try {
             Document document = Jsoup.connect(url).get();
 
@@ -101,12 +105,8 @@ public class TongHuaSunCrawler {
                 rank.setNetfit(new BigDecimal(node.get(5).asText()));
                 rank.setTotal_revenue(new BigDecimal(node.get(6).asText()));
                 rank.setTotal_assets(new BigDecimal(node.get(7).asText()));
-
-                if (rank.getStockCode().startsWith("6")) {
-                    rank.setStockCode("SH" + rank.getStockCode());
-                } else if (rank.getStockCode().startsWith("0") || rank.getStockCode().startsWith("2") || rank.getStockCode().startsWith("3")) {
-                    rank.setStockCode("SZ" + rank.getStockCode());
-                }
+                rank.setStockCode(stockService.getStockCode(rank.getStockCode()));
+                if(rank.getStockCode().contains("BJ")) continue;
                 rankList.add(rank);
             }
             rankList.sort(Comparator.comparing(IndustryRank::getTotal_assets).reversed());

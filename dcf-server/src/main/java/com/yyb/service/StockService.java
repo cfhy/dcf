@@ -48,7 +48,7 @@ public class StockService {
             Stock tmpStock = getStockByCode(stock.getStock_code());
             if (tmpStock == null) {
                 //同步行业
-                List<IndustryRank> industryRankList = tongHuaSunCrawler.getIndustryRankList(stockInfos[1]);
+                List<IndustryRank> industryRankList = tongHuaSunCrawler.getIndustryRankList(stockCode);
                 if (CollUtil.isNotEmpty(industryRankList)) {
                     industryRankList.forEach(rank -> {
                         Stock tempStock = getStockByCode(rank.getStockCode());

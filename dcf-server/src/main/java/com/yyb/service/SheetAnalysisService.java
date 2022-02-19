@@ -1,6 +1,7 @@
 package com.yyb.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yyb.config.Column;
 import com.yyb.entity.*;
@@ -47,32 +48,62 @@ public class SheetAnalysisService {
     @Transactional
     public List<AnalysisSubject> analysis(String stockCode) {
         //判断数据库中是否存在，存在直接返回结果
-        List<AnalysisSubject> analysisSubjectList = analysisSubjectMapper.selectList(getQueryWrapper(stockCode, 5));
-
-        if (CollUtil.isEmpty(analysisSubjectList)) {
+        int year = 5;
+        List<AnalysisSubject> analysisList = getAnalysisList(stockCode, year,true);
+        if (CollUtil.isEmpty(analysisList)) {
             synchronized (SheetAnalysisService.class) {
-                analysisSubjectList = analysisSubjectMapper.selectList(getQueryWrapper(stockCode, 5));
-                if (CollUtil.isEmpty(analysisSubjectList)) {
+                analysisList = getAnalysisList(stockCode, year,false);
+                if (CollUtil.isEmpty(analysisList)) {
                     //1、拉取存数据库
-                    pullSave(stockCode, 5);
+                    pullSave(stockCode, year);
                     //2、分析，结果存数据库
-                    List<BalanceEntity> balanceList = balanceMapper.selectList(getQueryWrapper(stockCode, 5));
-                    List<IncomeEntity> incomeList = incomeMapper.selectList(getQueryWrapper(stockCode, 5));
-                    List<CashFlowEntity> cashFlowList = cashFlowMapper.selectList(getQueryWrapper(stockCode, 5));
+                    List<BalanceEntity> balanceList = balanceMapper.selectList(getQueryWrapper(stockCode, year));
+                    List<IncomeEntity> incomeList = incomeMapper.selectList(getQueryWrapper(stockCode, year));
+                    List<CashFlowEntity> cashFlowList = cashFlowMapper.selectList(getQueryWrapper(stockCode, year));
                     List<LnfhrzItemEntity> bonusList = dfcfCrawler.getBonusFinancing(stockCode);
                     List<ZyzbItemEntity> zyzbList = dfcfCrawler.getZYZB(stockCode);
-                    this.analysis(balanceList, incomeList, cashFlowList, bonusList,zyzbList);
-                    analysisSubjectList = analysisSubjectMapper.selectList(getQueryWrapper(stockCode, 5));
+                    this.analysis(balanceList, incomeList, cashFlowList, bonusList, zyzbList, stockCode);
+                    analysisList = analysisSubjectMapper.selectList(getQueryWrapper(stockCode, year));
                 }
             }
         }
-        return analysisSubjectList;
+        return analysisList;
     }
 
-    private void pullSave(String stockCode,int year) {
-        //1.拉取资产负债表
-        List<BalanceSheetEntity> balanceSheetList = dfcfCrawler.downloadBalanceSheet(stockCode,year);
+    private List<AnalysisSubject> getAnalysisList(String stockCode, int year, boolean isFirst) {
+        List<AnalysisSubject> analysisSubjectList = analysisSubjectMapper.selectList(getQueryWrapper(stockCode, year));
+        if (CollUtil.isEmpty(analysisSubjectList)) {
+            return null;
+        }
+        //如果不为空，判断数据库是否有当前年的年报
+        Integer lastYear = analysisSubjectList.get(0).getYear();
+        int currYear = DateUtil.year(new Date());
+        if (lastYear.equals(currYear)) {
+            return analysisSubjectList;
+        }
+        //如果是第1次来访问，不去判断是否有年报出来了
+        if (isFirst) {
+            return null;
+        }
+        //查是否有年报出来
+        List<DateItemEntity> dateList = dfcfCrawler.getDateList(stockCode);
+        if (CollUtil.isEmpty(dateList)) {
+            //没年报，不查了
+            return analysisSubjectList;
+        }
+        String reportDateName = dateList.get(0).getREPORT_DATE_NAME();
+        if (!reportDateName.contains(String.valueOf(currYear))) {
+            //没年报，不查了
+            return analysisSubjectList;
+        }
+        return null;
+    }
 
+    private void pullSave(String stockCode, int year) {
+        //1.拉取资产负债表
+        List<BalanceSheetEntity> balanceSheetList = dfcfCrawler.downloadBalanceSheet(stockCode, year);
+
+        balanceMapper.delete(deleteSheetWrapper(stockCode));
         for (BalanceSheetEntity dfcfBalance : balanceSheetList) {
             BalanceEntity balance = new BalanceEntity();
             setValue(dfcfBalance, balance, BalanceEntity.class);
@@ -81,6 +112,7 @@ public class SheetAnalysisService {
         //2.拉取利润表
         List<IncomeSheetEntity> incomeSheetList = dfcfCrawler.downloadIncomeSheet(stockCode, year);
 
+        incomeMapper.delete(deleteSheetWrapper(stockCode));
         for (IncomeSheetEntity dfcfIncome : incomeSheetList) {
             IncomeEntity income = new IncomeEntity();
             setValue(dfcfIncome, income, IncomeEntity.class);
@@ -89,6 +121,7 @@ public class SheetAnalysisService {
         //3.拉取现金流量表
         List<CashFlowSheetEntity> cashflowList = dfcfCrawler.downloadCashSheet(stockCode, year);
 
+        cashFlowMapper.delete(deleteSheetWrapper(stockCode));
         for (CashFlowSheetEntity dfcfCashflow : cashflowList) {
             CashFlowEntity cashFlow = new CashFlowEntity();
             setValue(dfcfCashflow, cashFlow, CashFlowEntity.class);
@@ -104,8 +137,14 @@ public class SheetAnalysisService {
         return asQuery;
     }
 
+    private <T> QueryWrapper<T> deleteSheetWrapper(String stockCode) {
+        QueryWrapper<T> asQuery = new QueryWrapper<>();
+        asQuery.eq("stock_code", stockCode);
+        return asQuery;
+    }
+
     private void analysis(List<BalanceEntity> balanceList, List<IncomeEntity> incomeList, List<CashFlowEntity> cashFlowList
-            , List<LnfhrzItemEntity> bonusList, List<ZyzbItemEntity> zyzbList) {
+            , List<LnfhrzItemEntity> bonusList, List<ZyzbItemEntity> zyzbList, String stockCode) {
         List<AnalysisSubject> list = new ArrayList<>();
         for (BalanceEntity balance : balanceList) {
             AnalysisSubject as = new AnalysisSubject();
@@ -259,7 +298,7 @@ public class SheetAnalysisService {
             as.setBuy_ratio(DecimalUtil.multiply(DecimalUtil.divide(as.getCash_paid_for_assets(), as.getNcf_from_oa(), 4), handred));
 
             //第14步：看分红，判断公司的品质。
-            if(bonus.getTOTAL_DIVIDEND()!=null) {
+            if (bonus.getTOTAL_DIVIDEND() != null) {
                 as.setBonus_fee(bonus.getTOTAL_DIVIDEND());
                 //年度股利支付率=年度累计分红总额/归属于母公司股东的净利润
                 as.setBonus_ratio(DecimalUtil.multiply(DecimalUtil.divide(as.getBonus_fee(), as.getNet_profit_atsopc(), 4), handred));
@@ -295,7 +334,8 @@ public class SheetAnalysisService {
                 BigDecimal preYearGross = list.get(i - 1).getGross_profit_ratio();
                 list.get(i).setGross_profit_ratio_wave(DecimalUtil.multiply(DecimalUtil.divide(DecimalUtil.subtract(currYearGross, preYearGross), preYearGross, 4), handred));
             }
-            list.forEach(m->{
+            analysisSubjectMapper.delete(deleteSheetWrapper(stockCode));
+            list.forEach(m -> {
                 analysisSubjectMapper.insert(m);
             });
         }
@@ -333,7 +373,7 @@ public class SheetAnalysisService {
                 if (fieldName.equals("year")) {
                     Field fromField = fromMapField.get(annotation.name());
                     String reportDate = fromField.get(from).toString();
-                    Integer o1 = Integer.parseInt(reportDate.substring(0,4));
+                    Integer o1 = Integer.parseInt(reportDate.substring(0, 4));
                     field.set(output, o1);
                     continue;
                 }
@@ -353,7 +393,7 @@ public class SheetAnalysisService {
                 }
                 if (fieldTypeName.equals("java.math.BigDecimal")) {
                     Field fromField = fromMapField.get(annotation.name());
-                    if(fromField!=null) {
+                    if (fromField != null) {
                         BigDecimal o1 = (BigDecimal) fromField.get(from);
                         field.set(output, o1);
                     }

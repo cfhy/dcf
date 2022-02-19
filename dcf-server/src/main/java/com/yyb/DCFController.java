@@ -7,12 +7,12 @@ import com.yyb.mapper.OrgNetFitMapper;
 import com.yyb.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -60,15 +60,20 @@ public class DCFController {
                 log.error("分析财报出错", e);
             }
         }
+        List<Stock> stocks = stockList.stream().filter(m -> m.getStock_name().contains(stockName)).collect(Collectors.toList());
+        if(CollUtil.isNotEmpty(stocks)){
+            accessLogService.writeLog(stocks.get(0).getStock_code(),stocks.get(0).getStock_name(),request);
+        }else{
+            accessLogService.writeLog(stockList.get(0).getStock_code(),stockList.get(0).getStock_name(),request);
+        }
 
-        accessLogService.writeLog(stockList.get(0).getStock_code(),stockList.get(0).getStock_name(),request);
         return map;
     }
 
     @GetMapping("/sync")
     public void syncStock() {
         //dfcfCrawler.getTotalShares("SZ000895");
-        //stockService.syncStock();
+        stockService.syncStock();
         //orgNetfitService.syncOrgNetFit();
         //stockService.updateZYFW("SZ301057");
     }
