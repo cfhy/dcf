@@ -230,19 +230,19 @@ export default {
 			let eightDiscount=(priceInfo.profitList[0].marketPrice/totalShares*0.8).toFixed(2);
 			let nineDiscount=(priceInfo.profitList[0].marketPrice/totalShares*0.9).toFixed(2);
 			priceInfo.goodsPriceList.push({
-				discount:'5折',
+				discount:'（采用三年后合理市值）5折',
 				price:fiveDiscount
 			});
 			priceInfo.goodsPriceList.push({
-				discount:'7折',
+				discount:'（采用当年合理市值）7折',
 				price:sevenDiscount
 			});
 			priceInfo.goodsPriceList.push({
-				discount:'8折',
+				discount:'（采用当年合理市值）8折',
 				price:eightDiscount
 			});
 			priceInfo.goodsPriceList.push({
-				discount:'9折',
+				discount:'（采用当年合理市值）9折',
 				price:nineDiscount
 			});
 			return priceInfo;
