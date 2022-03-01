@@ -39,9 +39,10 @@ public class StockService {
         List<String> stockList = dfcfCrawler.getStockList();
         //"1,870204,沪江材料,22765700"
         for (String stockInfo : stockList) {
+            log.info("stockInfo={}", stockInfo);
             String[] stockInfos = stockInfo.split(",");
             String stockCode = getStockCode(stockInfos[1]);
-            if(stockCode.contains("BJ")) continue;
+            if (stockCode.contains("BJ")) continue;
 
             Stock stock = new Stock();
             stock.setStock_code(stockCode);
@@ -80,10 +81,13 @@ public class StockService {
                                 }
                             }
                             //拉取股本
-                            BigDecimal totalShares = dfcfCrawler.getTotalShares(tempStock.getStock_code());
-                            tempStock.setTotal_shares(totalShares);
-                            stockMapper.insert(tempStock);
-
+                            try {
+                                BigDecimal totalShares = dfcfCrawler.getTotalShares(tempStock.getStock_code());
+                                tempStock.setTotal_shares(totalShares);
+                                stockMapper.insert(tempStock);
+                            } catch (Exception e) {
+                                log.info("拉取股本失败,{}，stock_code={}", e, tempStock.getStock_code());
+                            }
                         }
                     });
                 }

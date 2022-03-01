@@ -1,6 +1,7 @@
 package com.yyb;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import com.yyb.dto.StockSum;
 import com.yyb.entity.Stock;
 import com.yyb.mapper.OrgNetFitMapper;
@@ -36,7 +37,7 @@ public class DCFController {
 
     @GetMapping("/list")
     public Map<String, Object> list(String stockName, HttpServletRequest request) {
-        log.info("stockName={},request={}",stockName,request);
+        log.info("stockName={}",stockName);
         Map<String, Object> map = new HashMap<>(2);
         List<StockSum> list = new ArrayList<>();
         map.put("industry", "");
@@ -73,7 +74,7 @@ public class DCFController {
 
     @GetMapping("/sync")
     public void syncStock() {
-        //dfcfCrawler.getTotalShares("SZ000895");
+        //dfcfCrawler.getTotalShares("SZ002622");
         stockService.syncStock();
         //orgNetfitService.syncOrgNetFit();
         //stockService.updateZYFW("SZ301057");
