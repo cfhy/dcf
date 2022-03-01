@@ -73,6 +73,7 @@ public class TongHuaSunCrawler {
         return netfitList;
     }
 
+    //不需要前缀
     public List<IndustryRank> getIndustryRankList(String stockCode) {
         String url = String.format("http://basic.10jqka.com.cn/%s/field.html", stockCode);
         try {

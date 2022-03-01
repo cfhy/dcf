@@ -36,6 +36,7 @@ public class DCFController {
 
     @GetMapping("/list")
     public Map<String, Object> list(String stockName, HttpServletRequest request) {
+        log.info("stockName={},request={}",stockName,request);
         Map<String, Object> map = new HashMap<>(2);
         List<StockSum> list = new ArrayList<>();
         map.put("industry", "");

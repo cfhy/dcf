@@ -32,6 +32,7 @@ public class StockService {
     @Autowired
     private DfcfCrawler dfcfCrawler;
 
+    //每月1号同步一次
     @Scheduled(cron = "0 0 1 1 * ?")
     public void syncStock() {
         stockMapper.delete(Wrappers.emptyWrapper());
@@ -48,7 +49,7 @@ public class StockService {
             Stock tmpStock = getStockByCode(stock.getStock_code());
             if (tmpStock == null) {
                 //同步行业
-                List<IndustryRank> industryRankList = tongHuaSunCrawler.getIndustryRankList(stockCode);
+                List<IndustryRank> industryRankList = tongHuaSunCrawler.getIndustryRankList(stockInfos[1]);
                 if (CollUtil.isNotEmpty(industryRankList)) {
                     industryRankList.forEach(rank -> {
                         Stock tempStock = getStockByCode(rank.getStockCode());
