@@ -112,9 +112,14 @@ public class DfcfCrawler {
     }
 
     public OperateRangeEntity getBusinessAnalysis(String stockCode){
-        String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code={0}",stockCode);
-        OperateRangeEntity body = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<OperateRangeEntity>() {});
-        return body;
+        try {
+            String url = MessageFormat.format("https://emweb.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code={0}",stockCode);
+            OperateRangeEntity body = restTemplateUtils.httpGet(url, new ParameterizedTypeReference<OperateRangeEntity>() {});
+            return body;
+        } catch (Exception e) {
+            log.info("获取简介失败,{}，stock_code={}", e, stockCode);
+        }
+        return null;
     }
 
     public List<LnfhrzItemEntity> getBonusFinancing(String stockCode){

@@ -25,4 +25,6 @@ public class Stock {
 
     @TableField(exist = false)
     private Integer type;
+    @TableField(exist = false)
+    private String stockCodeNoArea;
 }

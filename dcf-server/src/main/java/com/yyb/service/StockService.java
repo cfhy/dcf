@@ -32,67 +32,50 @@ public class StockService {
     @Autowired
     private DfcfCrawler dfcfCrawler;
 
-    //每月1号同步一次
-    @Scheduled(cron = "0 0 1 1 * ?")
+    //每15天同步一次
+    @Scheduled(cron = "0 0 0 1,15 * ?")
     public void syncStock() {
-        stockMapper.delete(Wrappers.emptyWrapper());
-        List<String> stockList = dfcfCrawler.getStockList();
-        //"1,870204,沪江材料,22765700"
-        for (String stockInfo : stockList) {
-            log.info("stockInfo={}", stockInfo);
-            String[] stockInfos = stockInfo.split(",");
-            String stockCode = getStockCode(stockInfos[1]);
-            if (stockCode.contains("BJ")) continue;
+        log.info("syncStock同步时间：{}",new Date());
+        List<Stock> needStockList = new ArrayList<>();
 
-            Stock stock = new Stock();
-            stock.setStock_code(stockCode);
-            stock.setStock_name(stockInfos[2]);
-            Stock tmpStock = getStockByCode(stock.getStock_code());
-            if (tmpStock == null) {
-                //同步行业
-                List<IndustryRank> industryRankList = tongHuaSunCrawler.getIndustryRankList(stockInfos[1]);
+        //1、筛选股本数大于0的股票
+        List<String> stockList = dfcfCrawler.getStockList();
+        for (String stockInfo : stockList) {
+            Stock stock = assembleStock(stockInfo);
+            if (stock.getStock_code().contains("BJ")) continue;
+            log.info("stockInfo={}", stockInfo);
+
+            //2、拉取简介
+            OperateRangeEntity businessAnalysis = dfcfCrawler.getBusinessAnalysis(stock.getStock_code());
+            if (businessAnalysis != null) {
+                assembleOperateRange(businessAnalysis, stock);
+            }
+            needStockList.add(stock);
+        }
+        //3、同步行业
+        needStockList.forEach(stock -> {
+            if (StrUtil.isEmpty(stock.getIndustry())) {
+                List<IndustryRank> industryRankList = tongHuaSunCrawler.getIndustryRankList(stock.getStockCodeNoArea());
                 if (CollUtil.isNotEmpty(industryRankList)) {
                     industryRankList.forEach(rank -> {
-                        Stock tempStock = getStockByCode(rank.getStockCode());
-                        if (tempStock == null) {
-                            tempStock = new Stock();
-                            BeanUtils.copyProperties(rank, tempStock);
-                            tempStock.setStock_name(rank.getStockName());
-                            tempStock.setStock_code(rank.getStockCode());
-                            OperateRangeEntity businessAnalysis = null;
-                            try {
-                                //拉取简介
-                                businessAnalysis = dfcfCrawler.getBusinessAnalysis(rank.getStockCode());
-                            } catch (Exception e) {
-                                log.info("获取简介失败,{}，stock_code={}", e, tempStock.getStock_code());
-                            }
-                            if (businessAnalysis != null) {
-                                if (CollUtil.isNotEmpty(businessAnalysis.getZyfw())) {
-                                    tempStock.setOperate_range(businessAnalysis.getZyfw().get(0).getBUSINESS_SCOPE());
-                                    if (StrUtil.isEmpty(tempStock.getOperate_range())) {
-                                        tempStock.setOperate_range(businessAnalysis.getZyfw().get(0).getMs());
-                                    }
-                                }
-                                if (CollUtil.isNotEmpty(businessAnalysis.getJyps())) {
-                                    tempStock.setOperate_desc(businessAnalysis.getJyps().get(0).getBUSINESS_REVIEW());
-                                    if (StrUtil.isEmpty(tempStock.getOperate_desc())) {
-                                        tempStock.setOperate_desc(businessAnalysis.getZyfw().get(0).getMs());
-                                    }
-                                }
-                            }
-                            //拉取股本
-                            try {
-                                BigDecimal totalShares = dfcfCrawler.getTotalShares(tempStock.getStock_code());
-                                tempStock.setTotal_shares(totalShares);
-                                stockMapper.insert(tempStock);
-                            } catch (Exception e) {
-                                log.info("拉取股本失败,{}，stock_code={}", e, tempStock.getStock_code());
-                            }
+                        Optional<Stock> opt = needStockList.stream().filter(item -> item.getStockCodeNoArea().equals(rank.getStockCode())).findFirst();
+                        if(opt.isPresent()){
+                            Stock tmpStock = opt.get();
+                            tmpStock.setIndustry(rank.getIndustry());
+                            tmpStock.setNetfit(rank.getNetfit());
+                            tmpStock.setTotal_assets(rank.getTotal_assets());
+                            tmpStock.setTotal_revenue(rank.getTotal_revenue());
                         }
                     });
                 }
             }
-        }
+        });
+        //4、先删后增
+        stockMapper.delete(Wrappers.emptyWrapper());
+        needStockList.forEach(stock -> {
+            stockMapper.insert(stock);
+        });
+        log.info("同步stock完成");
     }
 
     public List<Stock> selectByKeyword(String keyword) {
@@ -115,32 +98,59 @@ public class StockService {
         return stocks;
     }
 
-    private Stock getStockByCode(String stockCode) {
-        if (StrUtil.isEmpty(stockCode)) return null;
-        QueryWrapper<Stock> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("stock_code", stockCode);
-        List<Stock> list = stockMapper.selectList(queryWrapper);
-        if (CollUtil.isNotEmpty(list)) return list.get(0);
-        return null;
-    }
-
     public List<Stock> getStockList() {
         QueryWrapper<Stock> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("stock_name", "stock_code");
         return stockMapper.selectList(queryWrapper);
     }
 
-    public String getStockCode(String code) {
-        String newCode = code;
-        String codeFirstChar = code.substring(0, 1);
-        if (codeFirstChar.equals("0") || codeFirstChar.equals("3")) {
-            newCode = "SZ" + code;
-        } else if (codeFirstChar.equals("6")) {
-            newCode = "SH" + code;
+    /**
+     * 按照东方财富的格式组装股票代码
+     *
+     * @param stockInfo 格式："1,870204,沪江材料,22765700"
+     * @return Stock
+     */
+    public Stock assembleStock(String stockInfo) {
+        Stock stock = new Stock();
+        String[] stockInfos = stockInfo.split(",");
+
+        stock.setStockCodeNoArea(stockInfos[1]);
+        stock.setStock_name(stockInfos[2]);
+        stock.setTotal_shares(new BigDecimal(stockInfos[3]));
+
+        String newCode = stockInfos[1];
+        String codeFirstChar = newCode.substring(0, 1);
+        switch (codeFirstChar) {
+            case "0":
+            case "3":
+                newCode = "SZ" + newCode;
+                break;
+            case "6":
+                newCode = "SH" + newCode;
+                break;
+            case "4":
+            case "8":
+                newCode = newCode + ".BJ";
+                break;
         }
-        if (codeFirstChar.equals("4") || codeFirstChar.equals("8")) {
-            newCode = code + ".BJ";
+        stock.setStock_code(newCode);
+        return stock;
+    }
+
+    public void assembleOperateRange(OperateRangeEntity businessAnalysis, Stock stock) {
+        if (CollUtil.isNotEmpty(businessAnalysis.getZyfw())) {
+            String businessScope = businessAnalysis.getZyfw().get(0).getBUSINESS_SCOPE();
+            if (StrUtil.isEmpty(businessScope)) {
+                businessScope = businessAnalysis.getZyfw().get(0).getMs();
+            }
+            stock.setOperate_range(businessScope);
         }
-        return newCode;
+        if (CollUtil.isNotEmpty(businessAnalysis.getJyps())) {
+            String businessReview = businessAnalysis.getJyps().get(0).getBUSINESS_REVIEW();
+            if (StrUtil.isEmpty(businessReview)) {
+                businessReview = businessAnalysis.getZyfw().get(0).getMs();
+            }
+            stock.setOperate_desc(businessReview);
+        }
     }
 }

@@ -76,8 +76,8 @@ public class SheetAnalysisService {
             return null;
         }
         //如果不为空，判断数据库是否有当前年的年报
-        Integer lastYear = analysisSubjectList.get(0).getYear();
-        int currYear = DateUtil.year(new Date());
+        Integer lastYear = analysisSubjectList.get(analysisSubjectList.size()-1).getYear();
+        int currYear = DateUtil.year(new Date())-1;
         if (lastYear.equals(currYear)) {
             return analysisSubjectList;
         }

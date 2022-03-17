@@ -106,7 +106,6 @@ public class TongHuaSunCrawler {
                 rank.setNetfit(new BigDecimal(node.get(5).asText()));
                 rank.setTotal_revenue(new BigDecimal(node.get(6).asText()));
                 rank.setTotal_assets(new BigDecimal(node.get(7).asText()));
-                rank.setStockCode(stockService.getStockCode(rank.getStockCode()));
                 if(rank.getStockCode().contains("BJ")) continue;
                 rankList.add(rank);
             }
