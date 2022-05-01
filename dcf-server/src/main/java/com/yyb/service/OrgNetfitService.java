@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,9 +25,10 @@ public class OrgNetfitService {
     @Autowired
     private TongHuaSunCrawler tongHuaSunCrawler;
 
-    //每月15日同步一次
-    @Scheduled(cron = "0 0 1 15 * ?")
+    //每10天同步一次
+    @Scheduled(cron = "0 0 0 2,12,22 * ?")
     public void syncOrgNetFit() {
+        log.info("syncOrgNetFit同步时间：{}",new Date());
         orgNetFitMapper.delete(Wrappers.emptyWrapper());
         List<Stock> list = stockService.getStockList();
         if (CollUtil.isEmpty(list)) return;

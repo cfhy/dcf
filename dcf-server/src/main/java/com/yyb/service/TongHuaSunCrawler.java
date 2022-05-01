@@ -87,7 +87,7 @@ public class TongHuaSunCrawler {
 
             Elements fieldsChartData = document.select("#fieldsChartData");
             String val = fieldsChartData.val();
-
+            log.info("fieldsChartData={}",val);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(val);
 

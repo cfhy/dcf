@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-search placeholder="请输入要搜索的股票" v-model="stockName" margin="10rpx" disabled @click="searchClick" :show-action="false"></u-search>
-		<u-notice-bar v-if="industry" mode="vertical" :list="[industry, '只展示同行业总资产排名前3的上市公司','不支持银行、保险相关股票的分析']" color='#f07373' style="margin-bottom: 10rpx;"></u-notice-bar>
+		<u-notice-bar v-if="industry" mode="vertical" :list="[industry, '只展示同行业总资产排名前3的上市公司','不支持银行、保险相关股票的分析','价投即以合理的价格买入优秀企业的股票并长期持有']" color='#f07373' style="margin-bottom: 10rpx;"></u-notice-bar>
 		<view v-if="stockList && stockList.length > 0">
 			<view class="container">
 				<u-tabs-swiper activeColor="#f07373" ref="tabs" :list="tabs" :current="current" @change="changeTab" :is-scroll="false"></u-tabs-swiper>
@@ -208,7 +208,7 @@ export default {
 					if(!orgs || orgs.length==0){
 						minVal=manual.netfit;
 					}else{
-						minVal=org.netfit>manual.netfit?manual.netfit:org.netfit;
+						minVal=org.netfit && org.netfit<manual.netfit?org.netfit:manual.netfit;
 					}
 				}else{
 					minVal=org.netfit;
@@ -224,6 +224,7 @@ export default {
 				})
 			}
 			//好价格确定方法第一种：用三年后合理市值的一半作为当年的投资好机会（好价格 1=3年后合理市值/2/总股本）。
+			console.log(priceInfo.profitList[2].marketPrice)
 			let fiveDiscount=(priceInfo.profitList[2].marketPrice/(totalShares*2)).toFixed(2);
 			//好价格确定方法第二种：在当年合理市值以下买入，具体根据个人风险承受能力不同来制定买入标准。
 			let sevenDiscount=(priceInfo.profitList[0].marketPrice/totalShares*0.7).toFixed(2);

@@ -258,7 +258,7 @@ public class SheetAnalysisService {
             as.setManage_fee(income.getManage_fee());
             as.setRad_cost(income.getResearch_expense());
             as.setFinancing_expenses(income.getFinance_expense());
-            if (as.getFinancing_expenses().compareTo(BigDecimal.ZERO) < 0) {
+            if (as.getFinancing_expenses() ==null || as.getFinancing_expenses().compareTo(BigDecimal.ZERO) < 0) {
                 as.setTotal_fee(DecimalUtil.add(as.getSales_fee(), as.getManage_fee(), as.getRad_cost()));
             } else {
                 as.setTotal_fee(DecimalUtil.add(as.getSales_fee(), as.getManage_fee(), as.getRad_cost(), as.getFinancing_expenses()));

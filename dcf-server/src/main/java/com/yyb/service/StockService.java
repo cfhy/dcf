@@ -32,8 +32,8 @@ public class StockService {
     @Autowired
     private DfcfCrawler dfcfCrawler;
 
-    //每15天同步一次
-    @Scheduled(cron = "0 0 0 1,15 * ?")
+    //每10天同步一次
+    @Scheduled(cron = "0 0 0 1,10,20 * ?")
     public void syncStock() {
         log.info("syncStock同步时间：{}",new Date());
         List<Stock> needStockList = new ArrayList<>();

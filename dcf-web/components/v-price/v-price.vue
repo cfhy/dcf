@@ -48,11 +48,11 @@
 		<view class="itme-box">
 			<view>
 				<u-collapse ref="collapseView">
-					<u-collapse-item title="好价格计算">
+					<u-collapse-item title="好价格计算" :open="true">
 						<view class="title">
 							<view>好价格确定方法第一种：用三年后合理市值的一半作为当年的投资好机会（好价格 1=3年后合理市值/2/总股本）；</view>
-							<view>好价格确定方法第二种：在当年合理市值以下买入，具体根据个人风险承受能力,可以在合理价格的基础上打 7-9 折；</view>
 							
+							<view>好价格确定方法第二种：在当年合理市值以下买入，具体根据个人风险承受能力,可以在合理价格的基础上打 7-9 折；</view>
 							<view  v-if="price.profitList[0].minVal">
 								<view style="padding-top:30rpx;">具体计算方式如下：</view>
 								<view>5年平均资产负债率={{price.avgLiabRatio}}, 可取市盈率={{price.ttmPE}}；</view>
@@ -78,7 +78,8 @@
 			</view>
 		</view>
 		<view class="tooltip">
-			<u-alert-tips type="warning" title="风险提示" description="以上分析和计算逻辑来自微淼所学,仅用于财报分析时作参考,不构成投资建议"></u-alert-tips>
+			<u-alert-tips type="warning" title="风险提示" description="以上分析和计算逻辑来自微淼所学,仅用于财报分析时作参考,不构成任何投资建议.
+			尤其是好价格,仅作参考(比如周期股,计算出来的好价格就高得离谱),买入前请对企业各方面(比如企业护城河和领导者)仔细分析."></u-alert-tips>
 		</view>
 	</view>
 </template>
