@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @TableName("stock")
@@ -22,6 +23,7 @@ public class Stock {
     private BigDecimal total_shares;
     private String operate_range;
     private String operate_desc;
+    private Date date_updated;
 
     @TableField(exist = false)
     private Integer type;

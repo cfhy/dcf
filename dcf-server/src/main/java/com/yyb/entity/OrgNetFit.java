@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 //机构预测的净利润
 @Data
@@ -18,4 +19,5 @@ public class OrgNetFit {
     private String stock_code;
     private Integer year;
     private BigDecimal netfit;
+    private Date date_updated;
 }

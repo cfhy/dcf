@@ -79,4 +79,9 @@ public class DCFController {
         //orgNetfitService.syncOrgNetFit();
         //stockService.updateZYFW("SZ301057");
     }
+
+    @GetMapping("/syncnet")
+    public void syncOrgNetFit() {
+        orgNetfitService.syncOrgNetFit();
+    }
 }

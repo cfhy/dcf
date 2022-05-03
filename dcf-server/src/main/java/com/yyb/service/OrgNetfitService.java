@@ -33,18 +33,25 @@ public class OrgNetfitService {
         List<Stock> list = stockService.getStockList();
         if (CollUtil.isEmpty(list)) return;
         list.forEach(stock -> {
-            List<OrgNetFit> profitList = tongHuaSunCrawler.getForecastsProfitsData(stock.getStock_code());
-            if (CollUtil.isNotEmpty(profitList)) {
-                profitList.forEach(profit -> {
-                    OrgNetFit fit = new OrgNetFit();
-                    fit.setStock_code(stock.getStock_code());
-                    fit.setStock_name(stock.getStock_name());
-                    fit.setYear(profit.getYear());
-                    fit.setNetfit(profit.getNetfit());
-                    orgNetFitMapper.insert(fit);
-                });
+            try {
+                List<OrgNetFit> profitList = tongHuaSunCrawler.getForecastsProfitsData(stock.getStock_code());
+                if (CollUtil.isNotEmpty(profitList)) {
+                    profitList.forEach(profit -> {
+                        OrgNetFit fit = new OrgNetFit();
+                        fit.setStock_code(stock.getStock_code());
+                        fit.setStock_name(stock.getStock_name());
+                        fit.setYear(profit.getYear());
+                        fit.setNetfit(profit.getNetfit());
+                        fit.setDate_updated(new Date());
+                        orgNetFitMapper.insert(fit);
+                    });
+                }
+            }catch (Exception e){
+                log.error("OrgNetfitService.syncOrgNetFit error",e);
             }
+
         });
+        log.info("syncOrgNetFit end");
     }
 
     public List<OrgNetFit> getOrgNetfitList(String stockCode) {
